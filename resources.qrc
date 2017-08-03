@@ -21,4 +21,18 @@
         <file>Resources/ic_note_black_24px.svg</file>
         <file>Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</file>
     </qresource>
+    <qresource prefix="/Fonts">
+        <file>Resources/Fonts/Roboto/Roboto-BlackItalic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Black.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-BoldItalic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Bold.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-MediumItalic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Medium.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Italic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Regular.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-LightItalic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Light.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-ThinItalic.ttf</file>
+        <file>Resources/Fonts/Roboto/Roboto-Thin.ttf</file>
+    </qresource>
 </RCC>

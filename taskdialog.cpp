@@ -1,5 +1,5 @@
 #include "taskdialog.h"
-#include "ui_taskadddialog.h"
+#include "ui_taskdialog.h"
 #include "task.h"
 #include "iconmanager.h"
 #include "qcustomlabel.h"
