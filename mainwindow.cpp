@@ -50,6 +50,7 @@ void MainWindow::openTaskDlg()
 {
     task_dlg = new TaskDialog(current_date, this);
     task_dlg->setModal(true);
+    task_dlg->setAttribute(Qt::WA_DeleteOnClose);
     connect(task_dlg, &TaskDialog::dayTaskAdded, [this] { drawDayTasks(); });
 
     task_dlg->show();
