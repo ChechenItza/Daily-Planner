@@ -65,8 +65,8 @@ void MainWindow::drawDayButtons()
     }
 
 //Copy current date and set day to 1
-QDate month_date;
-month_date.setDate(current_date.year(), current_date.month(), 1);
+    QDate month_date;
+    month_date.setDate(current_date.year(), current_date.month(), 1);
 
 //Fill %daybutton_vec with day buttons in 3 steps
     //fill it with empty buttons until the first weekday of the month
