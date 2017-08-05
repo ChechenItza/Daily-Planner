@@ -3,9 +3,8 @@ It's an organiser app. And it's made with Qt Widgets/C++. It's not completed yet
 
 <b>Features</b>:
 * basic functionality that any other organiser app provide (WIP)
+* portability (WIP, currently works on Linux and Windows)
 * material-ish design
-* add and edit notes
-* breaks (WIP)
 * statistics (WIP)
 
 ## Description
@@ -16,5 +15,7 @@ See this terrible [wiki page](https://github.com/7Y2RPXK3ETDCNRDD/Koondelick/wik
 
 ## Screenshots
 ![mainwindow](http://imgur.com/CVTWQNH.png)
+
 ![daytasks](http://imgur.com/z13xh05.png)
+
 ![note](http://imgur.com/bQyeghu.png)
