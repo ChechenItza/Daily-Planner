@@ -1138,7 +1138,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="resources.qrc">:/Images/Resources/ic_event_note_white_24dp/web/ic_event_note_white_24dp_1x.png</pixmap>
+                <pixmap resource="../resources.qrc">:/Images/Resources/ic_event_note_white_24dp/web/ic_event_note_white_24dp_1x.png</pixmap>
                </property>
               </widget>
              </item>
@@ -1225,7 +1225,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>Roboto Black</family>
+                   <family>Roboto</family>
                    <pointsize>10</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
@@ -1301,7 +1301,7 @@
                  </property>
                  <property name="font">
                   <font>
-                   <family>Roboto Black</family>
+                   <family>Roboto</family>
                    <pointsize>10</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
@@ -1422,7 +1422,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/ic_trending_up_white_24dp/web/ic_trending_up_white_24dp_2x.png</normaloff>:/Images/Resources/ic_trending_up_white_24dp/web/ic_trending_up_white_24dp_2x.png</iconset>
              </property>
              <property name="iconSize">
@@ -1460,7 +1460,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</normaloff>:/Images/Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</iconset>
              </property>
              <property name="iconSize">
@@ -4914,7 +4914,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
              </property>
              <property name="iconSize">
@@ -5243,7 +5243,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/ic_note_white_24dp/web/ic_note_white_24dp_1x.png</normaloff>:/Images/Resources/ic_note_white_24dp/web/ic_note_white_24dp_1x.png</iconset>
              </property>
              <property name="iconSize">
@@ -5281,7 +5281,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/add.png</normaloff>:/Images/Resources/add.png</iconset>
              </property>
              <property name="iconSize">
@@ -5528,7 +5528,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
              </property>
              <property name="iconSize">
@@ -5867,7 +5867,7 @@
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/ic_save_white_18dp/web/ic_save_white_18dp_2x.png</normaloff>:/Images/Resources/ic_save_white_18dp/web/ic_save_white_18dp_2x.png</iconset>
              </property>
              <property name="iconSize">
@@ -6337,7 +6337,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/Superscript.png</normaloff>:/Images/Resources/Superscript.png</iconset>
                </property>
                <property name="iconSize">
@@ -6386,7 +6386,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/Subscript.png</normaloff>:/Images/Resources/Subscript.png</iconset>
                </property>
                <property name="iconSize">
@@ -6540,7 +6540,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/ic_link_black_24dp/web/ic_link_black_24dp_1x.png</normaloff>:/Images/Resources/ic_link_black_24dp/web/ic_link_black_24dp_1x.png</iconset>
                </property>
                <property name="iconSize">
@@ -6589,7 +6589,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/ic_image_black_24dp/web/ic_image_black_24dp_1x.png</normaloff>:/Images/Resources/ic_image_black_24dp/web/ic_image_black_24dp_1x.png</iconset>
                </property>
                <property name="iconSize">
@@ -6743,7 +6743,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/ic_format_list_bulleted_black_24dp/web/ic_format_list_bulleted_black_24dp_1x.png</normaloff>:/Images/Resources/ic_format_list_bulleted_black_24dp/web/ic_format_list_bulleted_black_24dp_1x.png</iconset>
                </property>
                <property name="iconSize">
@@ -6792,7 +6792,7 @@ border-top: 0px;
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources.qrc">
                  <normaloff>:/Images/Resources/ic_format_list_numbered_black_24dp/web/ic_format_list_numbered_black_24dp_1x.png</normaloff>:/Images/Resources/ic_format_list_numbered_black_24dp/web/ic_format_list_numbered_black_24dp_1x.png</iconset>
                </property>
                <property name="iconSize">
@@ -7221,7 +7221,7 @@ p, li { white-space: pre-wrap; }
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset resource="../resources.qrc">
                <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
              </property>
              <property name="iconSize">
@@ -7709,7 +7709,7 @@ p, li { white-space: pre-wrap; }
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>
