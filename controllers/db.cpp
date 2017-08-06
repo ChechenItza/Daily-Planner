@@ -1,11 +1,11 @@
 ﻿#include <QMessageBox>
 #include <sys/stat.h>
 #include <QDebug>
-#include "db.h"
-#include "task.h"
-#include "date.h"
-#include "constants.h"
-#include "datecontrollers.h"
+#include "controllers/db.h"
+#include "models/task.h"
+#include "models/date.h"
+#include "settings/constants.h"
+#include "controllers/datecontrollers.h"
 
 DbController::DbController()
 {

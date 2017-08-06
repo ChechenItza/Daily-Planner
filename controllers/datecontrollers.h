@@ -1,8 +1,8 @@
 #ifndef DATECONTROLLER_H
 #define DATECONTROLLER_H
 
-#include "date.h"
-#include "task.h"
+#include "models/date.h"
+#include "models/task.h"
 class QDate;
 
 class DayTaskController

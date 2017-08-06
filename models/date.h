@@ -4,8 +4,8 @@
 #include <vector>
 #include <array>
 #include <QString>
-#include "constants.h"
-#include "task.h"
+#include "settings/constants.h"
+#include "models/task.h"
 
 
 class Day

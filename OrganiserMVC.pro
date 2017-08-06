@@ -12,34 +12,37 @@ TARGET = OrganiserMVC
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    date.cpp \
-    task.cpp \
-    iconmanager.cpp \
-    db.cpp \
-    datecontrollers.cpp \
-    qcustomlabel.cpp \
-    customshadoweffect.cpp \
-    taskprogressbar.cpp \
-    iconbutton.cpp \
-    taskdialog.cpp
+SOURCES += \
+    controllers/datecontrollers.cpp \
+    controllers/db.cpp \
+    custom_widgets/customshadoweffect.cpp \
+    custom_widgets/iconbutton.cpp \
+    custom_widgets/qcustomlabel.cpp \
+    custom_widgets/taskprogressbar.cpp \
+    helpers/iconmanager.cpp \
+    models/date.cpp \
+    models/task.cpp \
+    views/mainwindow.cpp \
+    views/taskdialog.cpp \
+    main.cpp
 
-HEADERS  += mainwindow.h \
-    date.h \
-    task.h \
-    constants.h \
-    iconmanager.h \
-    db.h \
-    datecontrollers.h \
-    qcustomlabel.h \
-    customshadoweffect.h \
-    taskprogressbar.h \
-    iconbutton.h \
-    taskdialog.h
+HEADERS  += \
+    controllers/datecontrollers.h \
+    controllers/db.h \
+    custom_widgets/customshadoweffect.h \
+    custom_widgets/iconbutton.h \
+    custom_widgets/qcustomlabel.h \
+    custom_widgets/taskprogressbar.h \
+    helpers/iconmanager.h \
+    models/date.h \
+    models/task.h \
+    settings/constants.h \
+    views/mainwindow.h \
+    views/taskdialog.h
 
-FORMS    += mainwindow.ui \
-    taskdialog.ui
+FORMS    += \
+    views/mainwindow.ui \
+    views/taskdialog.ui
 
 RESOURCES += \
     resources.qrc

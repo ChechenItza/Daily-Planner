@@ -3,8 +3,8 @@
 #include <QTime>
 #include <QDebug>
 #include <QResizeEvent>
-#include "constants.h"
-#include "datecontrollers.h"
+#include "settings/constants.h"
+#include "controllers/datecontrollers.h"
 
 
 TaskProgressBar::TaskProgressBar(QDate current_date, DayTask task, QWidget* parent) :

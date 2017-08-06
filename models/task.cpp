@@ -1,5 +1,5 @@
-#include "task.h"
-#include "db.h"
+#include "models/task.h"
+#include "controllers/db.h"
 #include <QMessageBox>
 #include <typeinfo>
 

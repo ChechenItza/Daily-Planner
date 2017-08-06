@@ -1,10 +1,10 @@
 #include "taskdialog.h"
 #include "ui_taskdialog.h"
-#include "task.h"
-#include "iconmanager.h"
-#include "qcustomlabel.h"
-#include "iconbutton.h"
-#include "datecontrollers.h"
+#include "models/task.h"
+#include "helpers/iconmanager.h"
+#include "custom_widgets/qcustomlabel.h"
+#include "custom_widgets/iconbutton.h"
+#include "controllers/datecontrollers.h"
 #include <QMessageBox>
 #include <QScrollArea>
 

@@ -1,4 +1,4 @@
-#include "iconbutton.h"
+#include "custom_widgets/iconbutton.h"
 
 IconButton::IconButton(QIcon icon, QWidget* parent) :
     QPushButton(icon, "", parent)

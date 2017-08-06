@@ -2,7 +2,7 @@
 #define TASKADDDIALOG_H
 
 #include <QDialog>
-#include "task.h"
+#include "models/task.h"
 class IconManager;
 
 namespace Ui {

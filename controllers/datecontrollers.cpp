@@ -1,7 +1,7 @@
 ﻿#include <QMessageBox>
 #include <typeinfo>
-#include "datecontrollers.h"
-#include "constants.h"
+#include "controllers/datecontrollers.h"
+#include "settings/constants.h"
 #include "db.h"
 
 namespace {
