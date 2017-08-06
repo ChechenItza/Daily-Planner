@@ -99,7 +99,7 @@ QWidget* TaskDialog::genTask(Task task)
     task_name->setMargin(5);
     task_layout->addWidget(task_name);
 
-    QSpacerItem* spacer = new QSpacerItem(80, 40, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    QSpacerItem* spacer = new QSpacerItem(10, 40, QSizePolicy::Expanding, QSizePolicy::Minimum);
     task_layout->addSpacerItem(spacer);
 
     //"create daytask" button
