@@ -1,8 +1,10 @@
 # Koondelick
-It's an organiser app. And it's made with Qt Widgets/C++. It's not completed yet, but most of the features have been implemented so it's at least usable. 
+An organiser app made with Qt Widgets/C++. It's not completed yet, but most of the features have been implemented so it should be at least usable. 
+
+![gif](https://media.giphy.com/media/ycGCBtxNi4tZC/giphy.gif)
 
 <b>Features</b>:
-* basic functionality that any other organiser app provide (WIP)
+* basic functionality: add and manage tasks, breaks, notes (WIP)
 * portability (WIP, currently works on Linux and Windows)
 * material-ish design
 * statistics (WIP)
