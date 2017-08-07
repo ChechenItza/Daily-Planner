@@ -1,5 +1,6 @@
 #include "models/task.h"
 #include "controllers/db.h"
+#include "controllers/datecontrollers.h"
 #include <QMessageBox>
 #include <typeinfo>
 
@@ -146,7 +147,18 @@ void TaskContainer::setIconPath(int id, QString path)
 
 void TaskContainer::removeTask(int id)
 {
+    int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
+    for (std::pair<QDate, int> daytask_info : _task_vec[task_index].linked_daytasks_vec)
+        DayTaskController::removeDayTask(daytask_info.first, daytask_info.second);
 
+    db.deleteTask(_task_vec[task_index]);
+    _task_vec.erase(_task_vec.begin() + task_index);
+}
+
+void TaskContainer::linkDayTask(int id, QDate date, int daytask_id)
+{
+    int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
+    _task_vec[task_index].linked_daytasks_vec.push_back(std::make_pair(date, daytask_id));
 }
 
 size_t TaskContainer::taskCount()

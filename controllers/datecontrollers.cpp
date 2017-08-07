@@ -52,10 +52,8 @@ void DayTaskController::addDayTask(QDate date, DayTask daytask)
     else
         daytask.id = date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[dayTaskCount(date)-1].id + 1;
 
-//    //delete this daytask when its task is removed
-//    connect(task_container.findTask(daytask.task_id), &Task::Deleted, [date, daytask] {
-//        DayTaskController::removeDayTask(date, daytask.id);
-//    });
+    //link this daytask to a template task
+    task_container.linkDayTask(daytask.task_id, date, daytask.id);
 
     //add daytask to model and database
     date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
@@ -64,6 +62,9 @@ void DayTaskController::addDayTask(QDate date, DayTask daytask)
 
 void DayTaskController::addDayTaskFromDb(QDate date, DayTask daytask)
 {
+    //link this daytask to a template task
+    task_container.linkDayTask(daytask.task_id, date, daytask.id);
+
     date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
 }
 

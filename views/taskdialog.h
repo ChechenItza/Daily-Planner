@@ -18,7 +18,7 @@ public:
     ~TaskDialog();
 
 signals:
-    void dayTaskAdded();
+    void changed();
 
 private:
     Ui::TaskAddDialog *ui;

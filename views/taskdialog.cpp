@@ -116,13 +116,13 @@ QWidget* TaskDialog::genTask(Task task)
 
     //"delete task" button
     IconButton* delete_task_btn = new IconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
-//    connect(delete_task_btn, &QPushButton::clicked, [this, task] {
-//        if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task? Every day task associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
-//
-//        }
-//        current_task = task;
-
-//    });
+    connect(delete_task_btn, &QPushButton::clicked, [this, task] {
+        if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task? Every day task associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
+           task_container.removeTask(task.id);
+           drawTasks();
+           emit changed();
+        }
+    });
     task_layout->addWidget(delete_task_btn);
 
     return task_widget;
@@ -137,7 +137,7 @@ void TaskDialog::addDayTask()
 
     DayTaskController::addDayTask(current_date, DayTask(current_task.id, ui->startTime->time(), attempted_end_time));
 
-    emit dayTaskAdded();
+    emit changed();
 }
 
 void TaskDialog::addTask()

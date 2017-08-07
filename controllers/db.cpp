@@ -250,6 +250,19 @@ void DbController::updateTask(Task task)
     }
 }
 
+void DbController::deleteTask(Task task)
+{
+    QSqlQuery delete_query;
+    delete_query.prepare("DELETE FROM Tasks WHERE Id = :id");
+    delete_query.bindValue(":id", task.id);
+    if (!delete_query.exec()) {
+        QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while deleting task from the database. "
+                              "Program won't close, but task won't be deleted");
+        error_msg.exec();
+        qDebug() << delete_query.lastError() << "\n" << delete_query.lastQuery();
+    }
+}
+
 void DbController::insertDayTask(QDate date, DayTask daytask)
 {
     QSqlQuery insert_query;

@@ -19,6 +19,7 @@ public:
 
     void insertTask(Task task);
     void updateTask(Task task);
+    void deleteTask(Task task);
 
     void insertDayTask(QDate date, DayTask daytask);
     void updateDayTask(QDate date, DayTask daytask);

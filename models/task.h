@@ -40,9 +40,7 @@ struct Task
     int group_id;
     QString icon_path;
     int id;
-
-//signals:
-//    void Deleted();
+    std::vector<std::pair<QDate, int>> linked_daytasks_vec;
 };
 
 class TaskContainer
@@ -59,6 +57,7 @@ public:
     Group getGroup(int id);
     void setIconPath(int id, QString path);
     void removeTask(int id);
+    void linkDayTask(int id, QDate date, int daytask_id);
 
     size_t taskCount();
 
