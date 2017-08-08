@@ -31,7 +31,7 @@ private:
     void drawTasks();
     QWidget* genTask(Task task);
 
-    void addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* duration);
+    void addDayTask(int task_id, QTime start_time, QTime duration);
     void addTask(QString icon_path, QString name, int group_id);
 };
 

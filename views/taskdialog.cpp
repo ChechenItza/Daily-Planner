@@ -135,7 +135,7 @@ QWidget* TaskDialog::genTask(Task task)
         material_dlg->setConfirmBtnText("ADD TASK");
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, task, start_time_edit, duration_edit] {
-            addDayTask(task.id, start_time_edit, duration_edit);
+            addDayTask(task.id, start_time_edit->time(), duration_edit->time());
             material_dlg->close();
         });
         material_dlg->show();
@@ -160,7 +160,7 @@ QWidget* TaskDialog::genTask(Task task)
     return task_widget;
 }
 
-void TaskDialog::addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* duration)
+void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
 {
 ///TODO: SANITIZE USER INPUT
     QTime attempted_end_time(start_time->time());
