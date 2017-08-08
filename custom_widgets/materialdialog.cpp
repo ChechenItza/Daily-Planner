@@ -9,6 +9,8 @@ MaterialDialog::MaterialDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setModal(true);
     this->setAttribute(Qt::WA_DeleteOnClose);
+    this->setFont(QFont("Roboto Medium", 10));
+    this->setStyleSheet("color: rgba(0, 0, 0,  66%);");
 
     connect(ui->confirmBtn, &QPushButton::clicked, [this] {
         emit confirmBtnClicked();
@@ -23,6 +25,9 @@ MaterialDialog::~MaterialDialog()
 
 void MaterialDialog::insertLayout(QLayout *layout)
 {
+    layout->setContentsMargins(24, 20, 24, 24);
+    layout->setSpacing(6);
+
     ui->verticalLayout->insertLayout(1, layout);
 }
 

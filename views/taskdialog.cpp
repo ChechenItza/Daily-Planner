@@ -105,26 +105,15 @@ QWidget* TaskDialog::genTask(Task task)
 
         //form a layout of controls
         QFormLayout* main_layout = new QFormLayout();
-        main_layout->setContentsMargins(24, 26, 24, 24);
-        main_layout->setHorizontalSpacing(8);
-        main_layout->setVerticalSpacing(6);
 
         QLabel* start_time_lbl = new QLabel("Start time", material_dlg);
-        start_time_lbl->setFont(QFont("Roboto Medium", 10));
-        start_time_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QTimeEdit* start_time_edit = new QTimeEdit(QDateTime::currentDateTime().time(), material_dlg);
-        start_time_edit->setFont(QFont("Roboto Medium", 10));
-        start_time_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         start_time_edit->setDisplayFormat("hh:mm");
 
         main_layout->addRow(start_time_lbl, start_time_edit);
 
         QLabel* duration_lbl = new QLabel("Duration", material_dlg);
-        duration_lbl->setFont(QFont("Roboto Medium", 10));
-        duration_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QTimeEdit* duration_edit = new QTimeEdit(material_dlg);
-        duration_edit->setFont(QFont("Roboto Medium", 10));
-        duration_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         duration_edit->setDisplayFormat("hh:mm");
 
         main_layout->addRow(duration_lbl, duration_edit);
@@ -133,7 +122,7 @@ QWidget* TaskDialog::genTask(Task task)
         material_dlg->insertLayout(main_layout);
         material_dlg->setHeading("New task");
         material_dlg->setCancelBtnText("CANCEL");
-        material_dlg->setConfirmBtnText("ADD TASK");
+        material_dlg->setConfirmBtnText("ADD NEW");
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, task, start_time_edit, duration_edit] {
             addDayTask(task.id, start_time_edit->time(), duration_edit->time());
@@ -151,16 +140,9 @@ QWidget* TaskDialog::genTask(Task task)
 
         //form a layout of controls
         QFormLayout* main_layout = new QFormLayout();
-        main_layout->setContentsMargins(24, 26, 24, 24);
-        main_layout->setHorizontalSpacing(8);
-        main_layout->setVerticalSpacing(6);
 
         QLabel* icon_lbl = new QLabel("Icon", material_dlg);
-        icon_lbl->setFont(QFont("Roboto Medium", 10));
-        icon_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QComboBox* icon_box = new QComboBox(material_dlg);
-        icon_box->setFont(QFont("Roboto Medium", 10));
-        icon_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         icon_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
         //fill %icon_box with icons from /icons folder
         QStringList icon_list = icon_mng->getIconList();
@@ -177,20 +159,12 @@ QWidget* TaskDialog::genTask(Task task)
         main_layout->addRow(icon_lbl, icon_box);
 
         QLabel* name_lbl = new QLabel("Name", material_dlg);
-        name_lbl->setFont(QFont("Roboto Medium", 10));
-        name_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QLineEdit* name_edit = new QLineEdit(task.name ,material_dlg);
-        name_edit->setFont(QFont("Roboto Medium", 10));
-        name_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
 
         main_layout->addRow(name_lbl, name_edit);
 
         QLabel* group_lbl = new QLabel("Icon", material_dlg);
-        group_lbl->setFont(QFont("Roboto Medium", 10));
-        group_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QComboBox* group_box = new QComboBox(material_dlg);
-        group_box->setFont(QFont("Roboto Medium", 10));
-        group_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
         //fill %group_box with groups
         for (int i = 0; i < group_container.groupCount(); i++) {
@@ -210,7 +184,7 @@ QWidget* TaskDialog::genTask(Task task)
         material_dlg->insertLayout(main_layout);
         material_dlg->setHeading("Edit task template");
         material_dlg->setCancelBtnText("CANCEL");
-        material_dlg->setConfirmBtnText("EDIT TEMPLATE");
+        material_dlg->setConfirmBtnText("CONFIRM");
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, task, material_dlg, icon_box, name_edit, group_box] {
             editTask(task.id, icon_box->currentText(), name_edit->text(), group_box->currentIndex());
@@ -273,16 +247,10 @@ void TaskDialog::initConnects()
 
         //form a layout of controls
         QFormLayout* main_layout = new QFormLayout();
-        main_layout->setContentsMargins(24, 26, 24, 24);
-        main_layout->setHorizontalSpacing(8);
-        main_layout->setVerticalSpacing(6);
 
         QLabel* icon_lbl = new QLabel("Icon", material_dlg);
-        icon_lbl->setFont(QFont("Roboto Medium", 10));
-        icon_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+
         QComboBox* icon_box = new QComboBox(material_dlg);
-        icon_box->setFont(QFont("Roboto Medium", 10));
-        icon_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         icon_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
         //fill %icon_box with icons from /icons folder
         QStringList icon_list = icon_mng->getIconList();
@@ -293,20 +261,12 @@ void TaskDialog::initConnects()
         main_layout->addRow(icon_lbl, icon_box);
 
         QLabel* name_lbl = new QLabel("Name", material_dlg);
-        name_lbl->setFont(QFont("Roboto Medium", 10));
-        name_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QLineEdit* name_edit = new QLineEdit(material_dlg);
-        name_edit->setFont(QFont("Roboto Medium", 10));
-        name_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
 
         main_layout->addRow(name_lbl, name_edit);
 
         QLabel* group_lbl = new QLabel("Icon", material_dlg);
-        group_lbl->setFont(QFont("Roboto Medium", 10));
-        group_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         QComboBox* group_box = new QComboBox(material_dlg);
-        group_box->setFont(QFont("Roboto Medium", 10));
-        group_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
         group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
         //fill %group_box with groups
         for (int i = 0; i < group_container.groupCount(); i++) {
@@ -319,7 +279,7 @@ void TaskDialog::initConnects()
         material_dlg->insertLayout(main_layout);
         material_dlg->setHeading("New task template");
         material_dlg->setCancelBtnText("CANCEL");
-        material_dlg->setConfirmBtnText("ADD TEMPLATE");
+        material_dlg->setConfirmBtnText("ADD NEW");
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, icon_box, name_edit, group_box] {
             addTask(icon_box->currentText(), name_edit->text(), group_box->currentIndex());
