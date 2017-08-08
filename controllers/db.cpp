@@ -222,7 +222,7 @@ void DbController::insertTask(Task task)
     QSqlQuery insert_query;
     insert_query.prepare("INSERT INTO Tasks (Id, Text, GroupId, Icon) VALUES (:id, :task, :group_id, :icon)");
     insert_query.bindValue(":id", task.id);
-    insert_query.bindValue(":task", task.text);
+    insert_query.bindValue(":task", task.name);
     insert_query.bindValue(":group_id", task.group_id);
     insert_query.bindValue(":icon", task.icon_path);
     if (!insert_query.exec()) {
@@ -239,7 +239,7 @@ void DbController::updateTask(Task task)
     QSqlQuery update_query;
     update_query.prepare("UPDATE Tasks SET Text = :title, GroupId = :group, Icon = :icon WHERE Id = :id");
     update_query.bindValue(":id", task.id);
-    update_query.bindValue(":title", task.text);
+    update_query.bindValue(":title", task.name);
     update_query.bindValue(":group", task.group_id);
     update_query.bindValue(":icon", task.icon_path);
     if (!update_query.exec()) {

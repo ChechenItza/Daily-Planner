@@ -36,7 +36,7 @@ private:
 
 struct Task
 {
-    QString text;
+    QString name;
     int group_id;
     QString icon_path;
     int id;
@@ -52,7 +52,7 @@ public:
     void addTaskFromDb(Task task);
     Task getTask(int index);
     Task findTask(int id);
-    void setText(int id, QString text);
+    void setText(int id, QString name);
     void setGroup(int id, Group group);
     Group getGroup(int id);
     void setIconPath(int id, QString path);

@@ -32,7 +32,7 @@ private:
     QWidget* genTask(Task task);
 
     void addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* duration);
-    void addTask();
+    void addTask(QString icon_path, QString name, int group_id);
 };
 
 #endif // TASKADDDIALOG_H

@@ -10,6 +10,7 @@
 #include <QScrollArea>
 #include <QFormLayout>
 #include <QTimeEdit>
+#include <QComboBox>
 
 TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
     QDialog(parent),
@@ -18,17 +19,6 @@ TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
     current_date{current_date}
 {
     ui->setupUi(this);
-
-    //fill %taskIconBox with icons
-    QStringList icon_list = icon_mng->getIconList();
-    for (int i = 0; i < icon_list.count(); i++) {
-        ui->taskIconBox->addItem(QIcon(icon_list[i]), icon_list[i]);
-    }
-
-    //fill %taskGroupBox with groups
-    for (int i = 0; i < group_container.groupCount(); i++) {
-        ui->taskGroupBox->addItem(group_container.getGroup(i).name);
-    }
 
     initConnects();
     drawTasks();
@@ -98,7 +88,7 @@ QWidget* TaskDialog::genTask(Task task)
     task_layout->addWidget(task_icon);
 
     //name
-    QCustomLabel* task_name = new QCustomLabel(task.text);
+    QCustomLabel* task_name = new QCustomLabel(task.name);
     task_name->setMargin(5);
     task_layout->addWidget(task_name);
 
@@ -182,26 +172,76 @@ void TaskDialog::addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* durat
     emit changed();
 }
 
-void TaskDialog::addTask()
+void TaskDialog::addTask(QString icon_path, QString name, int group_id)
 {
 ///TODO: SANITIZE USER INPUT
-    task_container.addTask(Task {
-                               ui->taskNameEdit->text(),                                        //text
-                               group_container.getGroup(ui->taskGroupBox->currentIndex()).id,   //group_id
-                               ui->taskIconBox->currentText()                                   //icon_path
-                           });
+    task_container.addTask(Task{ name, group_id, icon_path });
+
+    drawTasks();
 }
 
 void TaskDialog::initConnects()
 {
     connect(ui->closeBtn, &QPushButton::clicked, [this] { this->close(); });
-    connect(ui->addTaskBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(2); });
-    connect(ui->cancelAddTaskBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(0); });
+    connect(ui->addTaskBtn, &QPushButton::clicked, [this] {
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
 
-    connect(ui->confirmAddTaskBtn, &QPushButton::clicked, [this] {
-        addTask();
-        drawTasks();
-        ui->stackedWidget->setCurrentIndex(0);
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+        main_layout->setContentsMargins(24, 26, 24, 24);
+        main_layout->setHorizontalSpacing(8);
+        main_layout->setVerticalSpacing(6);
+
+        QLabel* icon_lbl = new QLabel("Icon", material_dlg);
+        icon_lbl->setFont(QFont("Roboto Medium", 10));
+        icon_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QComboBox* icon_box = new QComboBox(material_dlg);
+        icon_box->setFont(QFont("Roboto Medium", 10));
+        icon_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        icon_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
+        //fill %icon_box with icons from /icons folder
+        QStringList icon_list = icon_mng->getIconList();
+        for (int i = 0; i < icon_list.count(); i++) {
+            icon_box->addItem(QIcon(icon_list[i]), icon_list[i]);
+        }
+
+        main_layout->addRow(icon_lbl, icon_box);
+
+        QLabel* name_lbl = new QLabel("Name", material_dlg);
+        name_lbl->setFont(QFont("Roboto Medium", 10));
+        name_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QLineEdit* name_edit = new QLineEdit(material_dlg);
+        name_edit->setFont(QFont("Roboto Medium", 10));
+        name_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+
+        main_layout->addRow(name_lbl, name_edit);
+
+        QLabel* group_lbl = new QLabel("Icon", material_dlg);
+        group_lbl->setFont(QFont("Roboto Medium", 10));
+        group_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QComboBox* group_box = new QComboBox(material_dlg);
+        group_box->setFont(QFont("Roboto Medium", 10));
+        group_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
+        //fill %group_box with groups
+        for (int i = 0; i < group_container.groupCount(); i++) {
+            group_box->addItem(group_container.getGroup(i).name);
+        }
+
+        main_layout->addRow(group_lbl, group_box);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("New task template");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("ADD TEMPLATE");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, icon_box, name_edit, group_box] {
+            addTask(icon_box->currentText(), name_edit->text(), group_box->currentIndex());
+            material_dlg->close();
+        });
+        material_dlg->show();
     });
 }
 

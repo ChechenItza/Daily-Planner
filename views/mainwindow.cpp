@@ -330,7 +330,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     icon_lbl->setPixmap(icon.scaled(QSize(60,60)));
 //Labels
     //task name
-    QCustomLabel* text_lbl = new QCustomLabel(task_container.findTask(daytask.task_id).text, daytask_widget);
+    QCustomLabel* text_lbl = new QCustomLabel(task_container.findTask(daytask.task_id).name, daytask_widget);
     text_lbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     text_lbl->setFont(QFont("Roboto", 11, 75, false));
     //group name

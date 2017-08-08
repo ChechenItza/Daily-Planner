@@ -114,10 +114,10 @@ Task TaskContainer::findTask(int id)
     return _task_vec[task_index];
 }
 
-void TaskContainer::setText(int id, QString text)
+void TaskContainer::setText(int id, QString name)
 {
     int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
-    _task_vec[task_index].text = text;
+    _task_vec[task_index].name = name;
     db.updateTask(_task_vec[task_index]);
 }
 
