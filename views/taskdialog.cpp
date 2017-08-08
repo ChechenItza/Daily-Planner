@@ -163,11 +163,11 @@ QWidget* TaskDialog::genTask(Task task)
 void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
 {
 ///TODO: SANITIZE USER INPUT
-    QTime attempted_end_time(start_time->time());
-    attempted_end_time = attempted_end_time.addSecs(duration->time().hour() * 60 * 60);
-    attempted_end_time = attempted_end_time.addSecs(duration->time().minute() * 60);
+    QTime attempted_end_time(start_time);
+    attempted_end_time = attempted_end_time.addSecs(duration.hour() * 60 * 60);
+    attempted_end_time = attempted_end_time.addSecs(duration.minute() * 60);
 
-    DayTaskController::addDayTask(current_date, DayTask(task_id, start_time->time(), attempted_end_time));
+    DayTaskController::addDayTask(current_date, DayTask(task_id, start_time, attempted_end_time));
 
     emit changed();
 }
