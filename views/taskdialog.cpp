@@ -163,7 +163,7 @@ QWidget* TaskDialog::genTask(Task task)
 
         main_layout->addRow(name_lbl, name_edit);
 
-        QLabel* group_lbl = new QLabel("Icon", material_dlg);
+        QLabel* group_lbl = new QLabel("Group", material_dlg);
         QComboBox* group_box = new QComboBox(material_dlg);
         group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
         //fill %group_box with groups
@@ -265,7 +265,7 @@ void TaskDialog::initConnects()
 
         main_layout->addRow(name_lbl, name_edit);
 
-        QLabel* group_lbl = new QLabel("Icon", material_dlg);
+        QLabel* group_lbl = new QLabel("Group", material_dlg);
         QComboBox* group_box = new QComboBox(material_dlg);
         group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
         //fill %group_box with groups
