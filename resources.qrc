@@ -4,22 +4,24 @@
         <file>Resources/arrow_right.png</file>
         <file>Resources/arrow_back_2.png</file>
         <file>Resources/add.png</file>
-        <file>Resources/ic_save_white_18dp/web/ic_save_white_18dp_2x.png</file>
         <file>Resources/Subscript.png</file>
         <file>Resources/Superscript.png</file>
-        <file>Resources/ic_image_black_24dp/web/ic_image_black_24dp_1x.png</file>
-        <file>Resources/ic_format_list_numbered_black_24dp/web/ic_format_list_numbered_black_24dp_1x.png</file>
-        <file>Resources/ic_format_list_bulleted_black_24dp/web/ic_format_list_bulleted_black_24dp_1x.png</file>
-        <file>Resources/ic_link_black_24dp/web/ic_link_black_24dp_1x.png</file>
-        <file>Resources/ic_event_note_white_24dp/web/ic_event_note_white_24dp_1x.png</file>
-        <file>Resources/ic_note_white_24dp/web/ic_note_white_24dp_1x.png</file>
-        <file>Resources/ic_trending_up_white_24dp/web/ic_trending_up_white_24dp_2x.png</file>
         <file>Resources/ic_delete_black_24px.svg</file>
         <file>Resources/ic_add_black_24px.svg</file>
         <file>Resources/ic_mode_edit_black_24px.svg</file>
         <file>Resources/ic_more_vert_black_24px.svg</file>
         <file>Resources/ic_note_black_24px.svg</file>
-        <file>Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</file>
+        <file>Resources/ic_link_black_24px.svg</file>
+        <file>Resources/ic_save_white_24px.svg</file>
+        <file>Resources/ic_format_list_numbered_black_24px.svg</file>
+        <file>Resources/ic_format_list_bulleted_black_24px.svg</file>
+        <file>Resources/ic_image_black_24px.svg</file>
+        <file>Resources/ic_arrow_back_white_24px.svg</file>
+        <file>Resources/ic_add_white_24px.svg</file>
+        <file>Resources/ic_note_white_24px.svg</file>
+        <file>Resources/ic_settings_white_24px.svg</file>
+        <file>Resources/ic_trending_up_white_24px.svg</file>
+        <file>Resources/ic_event_note_white_24px.svg</file>
     </qresource>
     <qresource prefix="/Fonts">
         <file>Resources/Fonts/Roboto/Roboto-BlackItalic.ttf</file>

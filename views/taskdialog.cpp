@@ -165,7 +165,6 @@ void TaskDialog::initConnects()
         drawTasks();
         ui->stackedWidget->setCurrentIndex(0);
     });
-
 }
 
 

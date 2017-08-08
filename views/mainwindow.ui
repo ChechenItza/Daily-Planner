@@ -1071,84 +1071,43 @@
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="mainIcon">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources.qrc">
+               <normaloff>:/Images/Resources/ic_event_note_white_24px.svg</normaloff>:/Images/Resources/ic_event_note_white_24px.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>28</width>
+               <height>28</height>
+              </size>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <property name="spacing">
               <number>6</number>
              </property>
-             <item>
-              <widget class="QLabel" name="mainIcon">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>190</red>
-                     <green>190</green>
-                     <blue>190</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Roboto</family>
-                 <pointsize>25</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../resources.qrc">:/Images/Resources/ic_event_note_white_24dp/web/ic_event_note_white_24dp_1x.png</pixmap>
-               </property>
-              </widget>
-             </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
                 <number>0</number>
                </property>
                <property name="leftMargin">
-                <number>0</number>
+                <number>3</number>
                </property>
                <item>
                 <spacer name="verticalSpacer_6">
@@ -1423,7 +1382,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/ic_trending_up_white_24dp/web/ic_trending_up_white_24dp_2x.png</normaloff>:/Images/Resources/ic_trending_up_white_24dp/web/ic_trending_up_white_24dp_2x.png</iconset>
+               <normaloff>:/Images/Resources/ic_trending_up_white_24px.svg</normaloff>:/Images/Resources/ic_trending_up_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1461,7 +1420,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</normaloff>:/Images/Resources/ic_settings_white_24dp/web/ic_settings_white_24dp_2x.png</iconset>
+               <normaloff>:/Images/Resources/ic_settings_white_24px.svg</normaloff>:/Images/Resources/ic_settings_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -4915,7 +4874,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
+               <normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5244,7 +5203,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/ic_note_white_24dp/web/ic_note_white_24dp_1x.png</normaloff>:/Images/Resources/ic_note_white_24dp/web/ic_note_white_24dp_1x.png</iconset>
+               <normaloff>:/Images/Resources/ic_note_white_24px.svg</normaloff>:/Images/Resources/ic_note_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5282,7 +5241,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/add.png</normaloff>:/Images/Resources/add.png</iconset>
+               <normaloff>:/Images/Resources/ic_add_white_24px.svg</normaloff>:/Images/Resources/ic_add_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5529,7 +5488,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
+               <normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -5868,7 +5827,7 @@
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/ic_save_white_18dp/web/ic_save_white_18dp_2x.png</normaloff>:/Images/Resources/ic_save_white_18dp/web/ic_save_white_18dp_2x.png</iconset>
+               <normaloff>:/Images/Resources/ic_save_white_24px.svg</normaloff>:/Images/Resources/ic_save_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -6541,7 +6500,7 @@ border-top: 0px;
                </property>
                <property name="icon">
                 <iconset resource="../resources.qrc">
-                 <normaloff>:/Images/Resources/ic_link_black_24dp/web/ic_link_black_24dp_1x.png</normaloff>:/Images/Resources/ic_link_black_24dp/web/ic_link_black_24dp_1x.png</iconset>
+                 <normaloff>:/Images/Resources/ic_link_black_24px.svg</normaloff>:/Images/Resources/ic_link_black_24px.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -6590,7 +6549,7 @@ border-top: 0px;
                </property>
                <property name="icon">
                 <iconset resource="../resources.qrc">
-                 <normaloff>:/Images/Resources/ic_image_black_24dp/web/ic_image_black_24dp_1x.png</normaloff>:/Images/Resources/ic_image_black_24dp/web/ic_image_black_24dp_1x.png</iconset>
+                 <normaloff>:/Images/Resources/ic_image_black_24px.svg</normaloff>:/Images/Resources/ic_image_black_24px.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -6744,7 +6703,7 @@ border-top: 0px;
                </property>
                <property name="icon">
                 <iconset resource="../resources.qrc">
-                 <normaloff>:/Images/Resources/ic_format_list_bulleted_black_24dp/web/ic_format_list_bulleted_black_24dp_1x.png</normaloff>:/Images/Resources/ic_format_list_bulleted_black_24dp/web/ic_format_list_bulleted_black_24dp_1x.png</iconset>
+                 <normaloff>:/Images/Resources/ic_format_list_bulleted_black_24px.svg</normaloff>:/Images/Resources/ic_format_list_bulleted_black_24px.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -6793,7 +6752,7 @@ border-top: 0px;
                </property>
                <property name="icon">
                 <iconset resource="../resources.qrc">
-                 <normaloff>:/Images/Resources/ic_format_list_numbered_black_24dp/web/ic_format_list_numbered_black_24dp_1x.png</normaloff>:/Images/Resources/ic_format_list_numbered_black_24dp/web/ic_format_list_numbered_black_24dp_1x.png</iconset>
+                 <normaloff>:/Images/Resources/ic_format_list_numbered_black_24px.svg</normaloff>:/Images/Resources/ic_format_list_numbered_black_24px.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -7222,7 +7181,7 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="icon">
               <iconset resource="../resources.qrc">
-               <normaloff>:/Images/Resources/arrow_back_2.png</normaloff>:/Images/Resources/arrow_back_2.png</iconset>
+               <normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</normaloff>:/Images/Resources/ic_arrow_back_white_24px.svg</iconset>
              </property>
              <property name="iconSize">
               <size>

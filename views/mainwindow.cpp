@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     redrawDate();
     drawDayButtons();
 
-
-
 //shadow effect for stats window elements
 //    CustomShadowEffect *body_shadow_1 = new CustomShadowEffect();
 //    body_shadow_1->setBlurRadius(6.0);
