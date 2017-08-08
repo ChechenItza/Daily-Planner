@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "models/task.h"
 class IconManager;
+class QTimeEdit;
 
 namespace Ui {
 class TaskAddDialog;
@@ -30,7 +31,7 @@ private:
     void drawTasks();
     QWidget* genTask(Task task);
 
-    void addDayTask();
+    void addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* duration);
     void addTask();
 };
 

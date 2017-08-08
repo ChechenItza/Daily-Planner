@@ -4,9 +4,12 @@
 #include "helpers/iconmanager.h"
 #include "custom_widgets/qcustomlabel.h"
 #include "custom_widgets/iconbutton.h"
+#include "custom_widgets/materialdialog.h"
 #include "controllers/datecontrollers.h"
 #include <QMessageBox>
 #include <QScrollArea>
+#include <QFormLayout>
+#include <QTimeEdit>
 
 TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
     QDialog(parent),
@@ -104,9 +107,48 @@ QWidget* TaskDialog::genTask(Task task)
 
     //"create daytask" button
     IconButton* add_task_btn = new IconButton(QIcon(":/Images/Resources/ic_add_black_24px.svg"));
+    //prompt a dialog on click
     connect(add_task_btn, &QPushButton::clicked, [this, task] {
-        current_task = task;
-        ui->stackedWidget->setCurrentIndex(1);
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
+
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+        main_layout->setContentsMargins(24, 26, 24, 24);
+        main_layout->setHorizontalSpacing(8);
+        main_layout->setVerticalSpacing(6);
+
+        QLabel* start_time_lbl = new QLabel("Start time", material_dlg);
+        start_time_lbl->setFont(QFont("Roboto Medium", 10));
+        start_time_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QTimeEdit* start_time_edit = new QTimeEdit(QDateTime::currentDateTime().time(), material_dlg);
+        start_time_edit->setFont(QFont("Roboto Medium", 10));
+        start_time_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        start_time_edit->setDisplayFormat("hh:mm");
+
+        main_layout->addRow(start_time_lbl, start_time_edit);
+
+        QLabel* duration_lbl = new QLabel("Duration", material_dlg);
+        duration_lbl->setFont(QFont("Roboto Medium", 10));
+        duration_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QTimeEdit* duration_edit = new QTimeEdit(material_dlg);
+        duration_edit->setFont(QFont("Roboto Medium", 10));
+        duration_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        duration_edit->setDisplayFormat("hh:mm");
+
+        main_layout->addRow(duration_lbl, duration_edit);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("New task");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("ADD TASK");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, task, start_time_edit, duration_edit] {
+            addDayTask(task.id, start_time_edit, duration_edit);
+            material_dlg->close();
+        });
+        material_dlg->show();
     });
     task_layout->addWidget(add_task_btn);
 
@@ -128,14 +170,14 @@ QWidget* TaskDialog::genTask(Task task)
     return task_widget;
 }
 
-void TaskDialog::addDayTask()
+void TaskDialog::addDayTask(int task_id, QTimeEdit* start_time, QTimeEdit* duration)
 {
 ///TODO: SANITIZE USER INPUT
-    QTime attempted_end_time(ui->startTime->time());
-    attempted_end_time = attempted_end_time.addSecs(ui->duration->time().hour() * 60 * 60);
-    attempted_end_time = attempted_end_time.addSecs(ui->duration->time().minute() * 60);
+    QTime attempted_end_time(start_time->time());
+    attempted_end_time = attempted_end_time.addSecs(duration->time().hour() * 60 * 60);
+    attempted_end_time = attempted_end_time.addSecs(duration->time().minute() * 60);
 
-    DayTaskController::addDayTask(current_date, DayTask(current_task.id, ui->startTime->time(), attempted_end_time));
+    DayTaskController::addDayTask(current_date, DayTask(task_id, start_time->time(), attempted_end_time));
 
     emit changed();
 }
@@ -153,13 +195,9 @@ void TaskDialog::addTask()
 void TaskDialog::initConnects()
 {
     connect(ui->closeBtn, &QPushButton::clicked, [this] { this->close(); });
-    connect(ui->cancelBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(0); });
-    connect(ui->addDayTaskBtn, &QPushButton::clicked, [this] {
-        addDayTask();
-        ui->stackedWidget->setCurrentIndex(0);
-    });
-    connect(ui->cancelAddTaskBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(0); });
     connect(ui->addTaskBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(2); });
+    connect(ui->cancelAddTaskBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(0); });
+
     connect(ui->confirmAddTaskBtn, &QPushButton::clicked, [this] {
         addTask();
         drawTasks();

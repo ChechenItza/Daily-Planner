@@ -24,7 +24,8 @@ SOURCES += \
     models/task.cpp \
     views/mainwindow.cpp \
     views/taskdialog.cpp \
-    main.cpp
+    main.cpp \
+    custom_widgets/materialdialog.cpp
 
 HEADERS  += \
     controllers/datecontrollers.h \
@@ -38,11 +39,13 @@ HEADERS  += \
     models/task.h \
     settings/constants.h \
     views/mainwindow.h \
-    views/taskdialog.h
+    views/taskdialog.h \
+    custom_widgets/materialdialog.h
 
 FORMS    += \
     views/mainwindow.ui \
-    views/taskdialog.ui
+    views/taskdialog.ui \
+    custom_widgets/materialdialog.ui
 
 RESOURCES += \
     resources.qrc
