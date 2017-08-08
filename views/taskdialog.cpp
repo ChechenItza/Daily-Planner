@@ -11,6 +11,7 @@
 #include <QFormLayout>
 #include <QTimeEdit>
 #include <QComboBox>
+#include <QLineEdit>
 
 TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
     QDialog(parent),
@@ -144,6 +145,79 @@ QWidget* TaskDialog::genTask(Task task)
 
     //"edit task" button
     IconButton* edit_task_btn = new IconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
+    connect(edit_task_btn, &IconButton::clicked, [this, task] {
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
+
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+        main_layout->setContentsMargins(24, 26, 24, 24);
+        main_layout->setHorizontalSpacing(8);
+        main_layout->setVerticalSpacing(6);
+
+        QLabel* icon_lbl = new QLabel("Icon", material_dlg);
+        icon_lbl->setFont(QFont("Roboto Medium", 10));
+        icon_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QComboBox* icon_box = new QComboBox(material_dlg);
+        icon_box->setFont(QFont("Roboto Medium", 10));
+        icon_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        icon_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
+        //fill %icon_box with icons from /icons folder
+        QStringList icon_list = icon_mng->getIconList();
+        for (int i = 0; i < icon_list.count(); i++) {
+            icon_box->addItem(QIcon(icon_list[i]), icon_list[i]);
+        }
+        //set it to task's icon
+        for (int i = 0; i < icon_box->count(); i++) {
+            icon_box->setCurrentIndex(i);
+            if (icon_box->currentText() == task.icon_path)
+                break;
+        }
+
+        main_layout->addRow(icon_lbl, icon_box);
+
+        QLabel* name_lbl = new QLabel("Name", material_dlg);
+        name_lbl->setFont(QFont("Roboto Medium", 10));
+        name_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QLineEdit* name_edit = new QLineEdit(task.name ,material_dlg);
+        name_edit->setFont(QFont("Roboto Medium", 10));
+        name_edit->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+
+        main_layout->addRow(name_lbl, name_edit);
+
+        QLabel* group_lbl = new QLabel("Icon", material_dlg);
+        group_lbl->setFont(QFont("Roboto Medium", 10));
+        group_lbl->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        QComboBox* group_box = new QComboBox(material_dlg);
+        group_box->setFont(QFont("Roboto Medium", 10));
+        group_box->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+        group_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLength);
+        //fill %group_box with groups
+        for (int i = 0; i < group_container.groupCount(); i++) {
+            group_box->addItem(group_container.getGroup(i).name);
+        }
+        //set it to task's group
+        for (int i = 0; i < group_container.groupCount(); i++) {
+            if (group_container.getGroup(i).id == task.group_id) {
+                group_box->setCurrentIndex(i);
+                break;
+            }
+        }
+
+        main_layout->addRow(group_lbl, group_box);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("Edit task template");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("EDIT TEMPLATE");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, task, material_dlg, icon_box, name_edit, group_box] {
+            editTask(task.id, icon_box->currentText(), name_edit->text(), group_box->currentIndex());
+            material_dlg->close();
+        });
+        material_dlg->show();
+    });
     task_layout->addWidget(edit_task_btn);
 
     //"delete task" button
@@ -178,6 +252,16 @@ void TaskDialog::addTask(QString icon_path, QString name, int group_id)
     task_container.addTask(Task{ name, group_id, icon_path });
 
     drawTasks();
+}
+
+void TaskDialog::editTask(int task_id, QString icon_path, QString name, int group_id)
+{
+    task_container.setIconPath(task_id, icon_path);
+    task_container.setName(task_id, name);
+    task_container.setGroup(task_id, group_id);
+
+    drawTasks();
+    emit changed();
 }
 
 void TaskDialog::initConnects()

@@ -114,17 +114,17 @@ Task TaskContainer::findTask(int id)
     return _task_vec[task_index];
 }
 
-void TaskContainer::setText(int id, QString name)
+void TaskContainer::setName(int id, QString name)
 {
     int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
     _task_vec[task_index].name = name;
     db.updateTask(_task_vec[task_index]);
 }
 
-void TaskContainer::setGroup(int id, Group group)
+void TaskContainer::setGroup(int id, int group_id)
 {
     int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
-    _task_vec[task_index].group_id = group.id;
+    _task_vec[task_index].group_id = group_id;
     db.updateTask(_task_vec[task_index]);
 }
 
