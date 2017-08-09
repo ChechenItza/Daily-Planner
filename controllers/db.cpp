@@ -132,8 +132,8 @@ void DbController::create()
     }
 
     //Initial group (! this call is made from a static object to another static object)
-    init_query.exec("INSERT INTO Groups (Id, Name, Color) VALUES (0, 'Miscellaneous', '" + Constants::red + "')");
-    group_container.addGroupFromDb(Group{"Miscellaneous", Constants::red, 0});
+    init_query.exec("INSERT INTO Groups (Id, Name, Color) VALUES (0, 'Miscellaneous', '" + constants::red + "')");
+    group_container.addGroupFromDb(Group{"Miscellaneous", constants::red, 0});
     //Initial task  (! this call is made from a static object to another static object)
     init_query.exec("INSERT INTO Tasks (Id, Text, GroupId, Icon) VALUES (0, 'Eat', 0, 'icons/soup.png')");
     task_container.addTaskFromDb(Task{"Eat", 0, "icons/soup.png", 0});
@@ -181,22 +181,22 @@ void DbController::init()
             case 0:
                 DayController::setStatus(QDate(init_query.value(0).toInt(),
                                                init_query.value(1).toInt(),
-                                               init_query.value(2).toInt()), Constants::status_t::none, true);
+                                               init_query.value(2).toInt()), constants::status_t::none, true);
                 break;
             case 1:
                 DayController::setStatus(QDate(init_query.value(0).toInt(),
                                                init_query.value(1).toInt(),
-                                               init_query.value(2).toInt()), Constants::status_t::bad, true);
+                                               init_query.value(2).toInt()), constants::status_t::bad, true);
                 break;
             case 2:
                 DayController::setStatus(QDate(init_query.value(0).toInt(),
                                                init_query.value(1).toInt(),
-                                               init_query.value(2).toInt()), Constants::status_t::ok, true);
+                                               init_query.value(2).toInt()), constants::status_t::ok, true);
                 break;
             case 3:
                 DayController::setStatus(QDate(init_query.value(0).toInt(),
                                                init_query.value(1).toInt(),
-                                               init_query.value(2).toInt()), Constants::status_t::good, true);
+                                               init_query.value(2).toInt()), constants::status_t::good, true);
                 break;
         }
         DayController::setNote(QDate(init_query.value(0).toInt(),

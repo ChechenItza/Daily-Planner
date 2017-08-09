@@ -27,6 +27,13 @@ TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
 
 void TaskDialog::drawTasks()
 {
+    //save current index
+    int index;
+    if (ui->tabWidget->count() != 0)
+        index = ui->tabWidget->currentIndex();
+    else
+        index = 0;
+
     //remove all pages and tabs
     while (ui->tabWidget->count() != 0) {
         QWidget* page = ui->tabWidget->widget(0);
@@ -71,6 +78,8 @@ void TaskDialog::drawTasks()
         //add page to ui
         ui->tabWidget->addTab(tab_widget_scroll, group_container.getGroup(i).name);
     }
+
+    ui->tabWidget->setCurrentIndex(index);
 }
 
 QWidget* TaskDialog::genTask(Task task)
@@ -238,6 +247,12 @@ void TaskDialog::editTask(int task_id, QString icon_path, QString name, int grou
     emit changed();
 }
 
+void TaskDialog::addGroup(QString name, QString color)
+{
+    group_container.addGroup(Group{ name, color });
+    drawTasks();
+}
+
 void TaskDialog::initConnects()
 {
     connect(ui->closeBtn, &QPushButton::clicked, [this] { this->close(); });
@@ -272,6 +287,7 @@ void TaskDialog::initConnects()
         for (int i = 0; i < group_container.groupCount(); i++) {
             group_box->addItem(group_container.getGroup(i).name);
         }
+        group_box->setCurrentIndex(ui->tabWidget->currentIndex());
 
         main_layout->addRow(group_lbl, group_box);
 
@@ -283,6 +299,42 @@ void TaskDialog::initConnects()
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, icon_box, name_edit, group_box] {
             addTask(icon_box->currentText(), name_edit->text(), group_box->currentIndex());
+            material_dlg->close();
+        });
+        material_dlg->show();
+    });
+
+    connect(ui->addGroupBtn, &QPushButton::clicked, [this] {
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
+
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+
+        QLabel* name_lbl = new QLabel("Name", material_dlg);
+        QLineEdit* name_edit = new QLineEdit(material_dlg);
+
+        main_layout->addRow(name_lbl, name_edit);
+
+        QLabel* color_lbl = new QLabel("Color", material_dlg);
+        QComboBox* color_box = new QComboBox(material_dlg);
+        color_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
+        for (QString color : constants::color_arr) {
+            QPixmap pixmap(100, 100);
+            pixmap.fill(QColor(color));
+            color_box->addItem(QIcon(pixmap), color);
+        }
+
+        main_layout->addRow(color_lbl, color_box);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("New group");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("ADD NEW");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, name_edit, color_box] {
+            addGroup(name_edit->text(), color_box->currentText());
             material_dlg->close();
         });
         material_dlg->show();

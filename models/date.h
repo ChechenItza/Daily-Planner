@@ -15,7 +15,7 @@ public:
     Day(int year, int month, int day);
 
     int weekday;
-    Constants::status_t status;
+    constants::status_t status;
     QString note;
     std::vector<DayTask> daytask_vec;
 };
@@ -51,7 +51,7 @@ public:
 
     Year& operator[](int);
 
-    std::array<Year, Constants::FINAL_YEAR - Constants::START_YEAR> date_arr;
+    std::array<Year, constants::FINAL_YEAR - constants::START_YEAR> date_arr;
 
 private:
     Date() = default;

@@ -134,8 +134,7 @@ Group TaskContainer::getGroup(int id)
     for (int i = 0; i < group_container.groupCount(); i++)
         if (group_container.getGroup(i).id == group_id)
             return group_container.getGroup(i);
-        else
-            genError(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
+    genError(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
 }
 
 void TaskContainer::setIconPath(int id, QString path)

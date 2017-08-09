@@ -34,6 +34,7 @@ private:
     void addDayTask(int task_id, QTime start_time, QTime duration);
     void addTask(QString icon_path, QString name, int group_id);
     void editTask(int task_id, QString icon_path, QString name, int group_id);
+    void addGroup(QString name, QString color);
 };
 
 #endif // TASKADDDIALOG_H

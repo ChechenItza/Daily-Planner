@@ -38,8 +38,8 @@ class DayController
 public:
     static QString getNote(QDate date);
     static void setNote(QDate date, QString note, bool from_db = false);
-    static Constants::status_t getStatus(QDate date);
-    static void setStatus(QDate date, Constants::status_t status, bool from_db = false);
+    static constants::status_t getStatus(QDate date);
+    static void setStatus(QDate date, constants::status_t status, bool from_db = false);
 };
 
 #endif // DATECONTROLLER_H

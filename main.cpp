@@ -1,7 +1,5 @@
 #include "views/mainwindow.h"
 #include <QApplication>
-#include <QStyle>
-#include <QDesktopWidget>
 #include <QFontDatabase>
 #include <QDebug>
 
@@ -38,15 +36,6 @@ int main(int argc, char *argv[])
     else
         QApplication::setFont(QFont("Roboto Regular", 10, QFont::Normal));
 
-    //center the window
-    w.setGeometry(
-        QStyle::alignedRect(
-            Qt::LeftToRight,
-            Qt::AlignCenter,
-            w.size(),
-            qApp->desktop()->availableGeometry()
-        )
-    );
     w.show();
 
     return a.exec();

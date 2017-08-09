@@ -1,6 +1,8 @@
 #include "materialdialog.h"
 #include "ui_materialdialog.h"
 #include <QLayout>
+#include <QStyle>
+#include <QDesktopWidget>
 
 MaterialDialog::MaterialDialog(QWidget *parent) :
     QDialog(parent),
@@ -11,6 +13,11 @@ MaterialDialog::MaterialDialog(QWidget *parent) :
     this->setAttribute(Qt::WA_DeleteOnClose);
     this->setFont(QFont("Roboto Medium", 10));
     this->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+//    //center the window
+//    this->move(
+//       parent->window()->frameGeometry().topLeft() +
+//       parent->window()->rect().center() - rect().center()
+//    );
 
     connect(ui->confirmBtn, &QPushButton::clicked, [this] {
         emit confirmBtnClicked();

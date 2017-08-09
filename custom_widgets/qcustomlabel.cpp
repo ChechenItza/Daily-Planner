@@ -4,7 +4,7 @@
 QCustomLabel::QCustomLabel(const QString &text, QWidget* parent, Qt::WindowFlags f) :
     QLabel(text, parent, f)
 {
-    setStyleSheet("color: " + Constants::black + ";");
+    setStyleSheet("color: " + constants::black + ";");
 }
 
 QCustomLabel::QCustomLabel(QWidget *w) : QLabel(w) {}

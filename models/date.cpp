@@ -8,7 +8,7 @@ Day::Day(int year, int month, int day)
 {
     QDate date(year, month, day);
     weekday = date.dayOfWeek();
-    status = Constants::status_t::none;
+    status = constants::status_t::none;
 }
 // }}} DAY
 
@@ -71,7 +71,7 @@ Date::Date(const Date& other)
 
 Date& Date::getInstance()
 {
-    static Date date(Constants::START_YEAR, Constants::FINAL_YEAR);
+    static Date date(constants::START_YEAR, constants::FINAL_YEAR);
     return date;
 }
 

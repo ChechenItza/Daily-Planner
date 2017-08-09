@@ -58,14 +58,14 @@ void TaskProgressBar::paintEvent(QPaintEvent* event)
             if (i == task.break_vec.size() * 2) {
                 //draw green chunk
                 end_point.setX(this->width() - 5);
-                painter.setPen(QPen(QColor(Constants::red), 2, Qt::SolidLine, Qt::RoundCap));
+                painter.setPen(QPen(QColor(constants::red), 2, Qt::SolidLine, Qt::RoundCap));
                 painter.drawLine(start_point, end_point);
             } else if (i == 0) {
                 int task_minutes = task.start_time.secsTo(task.break_vec[0].start_time) / 60;
                 float task_chunk = step *  (float)task_minutes;
                 //draw red chunk
                 end_point.setX(task_chunk);
-                painter.setPen(QPen(QColor(Constants::red), 2, Qt::SolidLine, Qt::RoundCap));
+                painter.setPen(QPen(QColor(constants::red), 2, Qt::SolidLine, Qt::RoundCap));
                 painter.drawLine(start_point, end_point);
 
                 //set start point at the end of the green chunk
@@ -75,7 +75,7 @@ void TaskProgressBar::paintEvent(QPaintEvent* event)
                 float task_chunk = step *  (float)task_minutes;
                 //draw red chunk
                 end_point.setX(end_point.x() + task_chunk);
-                painter.setPen(QPen(QColor(Constants::red), 2, Qt::SolidLine, Qt::RoundCap));
+                painter.setPen(QPen(QColor(constants::red), 2, Qt::SolidLine, Qt::RoundCap));
                 painter.drawLine(start_point, end_point);
 
                 start_point.setX(end_point.x());
@@ -85,7 +85,7 @@ void TaskProgressBar::paintEvent(QPaintEvent* event)
                 break_count++;
                 //draw green chunk
                 end_point.setX(end_point.x() + break_chunk);
-                painter.setPen(QPen(QColor(Constants::green), 2, Qt::SolidLine, Qt::RoundCap));
+                painter.setPen(QPen(QColor(constants::green), 2, Qt::SolidLine, Qt::RoundCap));
                 painter.drawLine(start_point, end_point);
 
                 start_point.setX(end_point.x());
@@ -93,7 +93,7 @@ void TaskProgressBar::paintEvent(QPaintEvent* event)
         }
     } else {
         end_point.setX(this->width() - 5);
-        painter.setPen(QPen(QColor(Constants::red), 2, Qt::SolidLine, Qt::RoundCap));
+        painter.setPen(QPen(QColor(constants::red), 2, Qt::SolidLine, Qt::RoundCap));
         painter.drawLine(start_point, end_point);
     }
     QPointF triangle_start_point;
@@ -112,11 +112,11 @@ void TaskProgressBar::paintEvent(QPaintEvent* event)
     path.lineTo(triangle_start_point);
     painter.setPen(Qt::NoPen);
 
-    painter.fillPath(path, QColor(Constants::red));
+    painter.fillPath(path, QColor(constants::red));
     for (int i = 0; i < task.break_vec.size(); i++) {
         if (QTime::currentTime() >= task.break_vec[i].start_time &&
                 QTime::currentTime() <= task.break_vec[i].end_time)
-            painter.fillPath(path, QBrush(QColor(Constants::green)));
+            painter.fillPath(path, QBrush(QColor(constants::green)));
     }
 }
 

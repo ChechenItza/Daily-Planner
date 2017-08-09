@@ -15,7 +15,7 @@ namespace {
 
     DayTask& findDayTask(QDate date, int id, QString method)
     {
-        for (DayTask& daytask : date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec) {
+        for (DayTask& daytask : date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec) {
             if (daytask.id == id)
                 return daytask;
         }
@@ -35,8 +35,8 @@ namespace {
 
     int findDayTaskIndex(QDate date, int id, QString method)
     {
-        for (int i = 0; i < date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.size(); i++) {
-            if (date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[i].id == id)
+        for (int i = 0; i < date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.size(); i++) {
+            if (date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[i].id == id)
                 return i;
         }
         genError(id, method);
@@ -47,16 +47,16 @@ namespace {
 void DayTaskController::addDayTask(QDate date, DayTask daytask)
 {
     //set id
-    if (date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.empty())
+    if (date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.empty())
         daytask.id = 0;
     else
-        daytask.id = date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[dayTaskCount(date)-1].id + 1;
+        daytask.id = date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[dayTaskCount(date)-1].id + 1;
 
     //link this daytask to a template task
     task_container.linkDayTask(daytask.task_id, date, daytask.id);
 
     //add daytask to model and database
-    date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
+    date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
     db.insertDayTask(date, daytask);
 }
 
@@ -65,12 +65,12 @@ void DayTaskController::addDayTaskFromDb(QDate date, DayTask daytask)
     //link this daytask to a template task
     task_container.linkDayTask(daytask.task_id, date, daytask.id);
 
-    date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
+    date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
 }
 
 DayTask DayTaskController::getDayTask(QDate date, int index)
 {
-    return date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[index];
+    return date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[index];
 }
 
 void DayTaskController::setNote(QDate date, int id, QString note)
@@ -119,8 +119,8 @@ bool DayTaskController::setEndTime(QDate date, int id, QTime end_time)
 void DayTaskController::removeDayTask(QDate date, int id)
 {
     db.deleteDayTask(date, findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__)));
-    date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.erase(
-                date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.begin()
+    date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.erase(
+                date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.begin()
                 + findDayTaskIndex(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__)));
 }
 
@@ -142,7 +142,7 @@ QTime DayTaskController::getDayTasksTimeSum(QDate date)
 
 size_t DayTaskController::dayTaskCount(QDate date)
 {
-    return date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.size();
+    return date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.size();
 }
 // }}} DayTaskContoller
 
@@ -217,27 +217,27 @@ size_t BreakController::breakCount(QDate date, int daytask_id)
 // DayController {{{
 QString DayController::getNote(QDate date)
 {
-    return date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].note;
+    return date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].note;
 }
 
 void DayController::setNote(QDate date, QString note, bool from_db)
 {
-    date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].note = note;
+    date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].note = note;
 
     if (!from_db)
-        db.updateDay(date, date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1]);
+        db.updateDay(date, date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1]);
 }
 
-Constants::status_t DayController::getStatus(QDate date)
+constants::status_t DayController::getStatus(QDate date)
 {
-    return date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].status;
+    return date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].status;
 }
 
-void DayController::setStatus(QDate date, Constants::status_t status, bool from_db)
+void DayController::setStatus(QDate date, constants::status_t status, bool from_db)
 {
-    date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1].status = status;
+    date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].status = status;
 
     if (!from_db)
-        db.updateDay(date, date_singleton[date.year()-Constants::START_YEAR][date.month()-1][date.day()-1]);
+        db.updateDay(date, date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1]);
 }
 // }}} DayController

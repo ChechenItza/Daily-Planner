@@ -14,6 +14,8 @@
 #include <algorithm>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QStyle>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +27,16 @@ MainWindow::MainWindow(QWidget *parent) :
     initConnects();
     redrawDate();
     drawDayButtons();
+
+    //center the window
+    this->setGeometry(
+        QStyle::alignedRect(
+            Qt::LeftToRight,
+            Qt::AlignCenter,
+            this->size(),
+            qApp->desktop()->availableGeometry()
+        )
+    );
 
 //shadow effect for stats window elements
 //    CustomShadowEffect *body_shadow_1 = new CustomShadowEffect();
@@ -215,28 +227,28 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
         case 0:
             color = "background-color: rgb(189, 189, 189);";
             connect(status, &QPushButton::clicked, [this, chosen_date] {
-                DayController::setStatus(chosen_date, Constants::status_t::bad);
+                DayController::setStatus(chosen_date, constants::status_t::bad);
                 drawDayButtons();
             });
             break;
         case 1:
             color = "background-color: #e53935;";
             connect(status, &QPushButton::clicked, [this, chosen_date] {
-                DayController::setStatus(chosen_date, Constants::status_t::ok);
+                DayController::setStatus(chosen_date, constants::status_t::ok);
                 drawDayButtons();
             });
             break;
         case 2:
             color = "background-color: #ffeb3b;";
             connect(status, &QPushButton::clicked, [this, chosen_date] {
-                DayController::setStatus(chosen_date, Constants::status_t::good);
+                DayController::setStatus(chosen_date, constants::status_t::good);
                 drawDayButtons();
             });
             break;
         case 3:
             color = "background-color: #76ff03;";
             connect(status, &QPushButton::clicked, [this, chosen_date] {
-                DayController::setStatus(chosen_date, Constants::status_t::none);
+                DayController::setStatus(chosen_date, constants::status_t::none);
                 drawDayButtons();
             });
             break;
@@ -315,12 +327,12 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     style += "border: 0px;";
     if (task_date <= QDateTime::currentDateTime()) {
         if (daytask.end_time.isNull()) {
-            style = style.arg(Constants::red);
+            style = style.arg(constants::red);
         } else {
-            style = style.arg(Constants::green);
+            style = style.arg(constants::green);
         }
     } else {
-        style = style.arg(Constants::red);
+        style = style.arg(constants::red);
     }
     status_color->setStyleSheet(style);
 
@@ -536,7 +548,7 @@ void MainWindow::initConnects()
         if (current_date.month() > 1) {
             current_date.setDate(current_date.year(), current_date.month() - 1, current_date.day());
 
-            if (current_date.year() == Constants::START_YEAR && current_date.month() == 1)
+            if (current_date.year() == constants::START_YEAR && current_date.month() == 1)
                 ui->prevMonthBtn->setDisabled(true);
 
             if (!ui->nextMonthBtn->isEnabled())
@@ -552,7 +564,7 @@ void MainWindow::initConnects()
         if (current_date.month() < 12) {
             current_date.setDate(current_date.year(), current_date.month() + 1, current_date.day());
 
-            if (current_date.year() == Constants::FINAL_YEAR && current_date.month() == 12)
+            if (current_date.year() == constants::FINAL_YEAR && current_date.month() == 12)
                 ui->nextMonthBtn->setDisabled(true);
 
             if (!ui->prevMonthBtn->isEnabled())
