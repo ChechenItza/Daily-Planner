@@ -9,6 +9,7 @@
 #include "custom_widgets/customshadoweffect.h"
 #include "views/taskdialog.h"
 #include "custom_widgets/iconbutton.h"
+#include "custom_widgets/materialdialog.h"
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>
@@ -16,6 +17,9 @@
 #include <QHBoxLayout>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <QFormLayout>
+#include <QTimeEdit>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -374,7 +378,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     //context menu and actions
     //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawDayTasks() when %remove_task is clicked
     QMenu* context_menu = new QMenu();
-    QAction* remove_task = new QAction("Remove Task", context_menu);
+    QAction* remove_task = new QAction("Remove", context_menu);
     remove_task->setFont(QFont("Roboto", 9, 50, false));
     connect(remove_task, &QAction::triggered, [this, daytask] {
         if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task?", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
@@ -389,16 +393,43 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
 //        connect(break_window, &BreakWindow::breakAdded, [this] { drawDayTasks(); });
 //        break_window->show();
 //    });
-//    QAction* edit_task_time = new QAction("Edit Task Time", context_menu);
-//    edit_task_time->setFont(QFont("Roboto", 9, 50, false));
-//    connect(edit_task_time, &QAction::triggered, [this, i] {
-//        task_time_edit_window = new TaskTimeEditWindow(i);
-//        task_time_edit_window->show();
-//        connect(task_time_edit_window, &TaskTimeEditWindow::Closed, [this] {drawTasks();});
-//    });
+    QAction* edit_task_time = new QAction("Edit time", context_menu);
+    edit_task_time->setFont(QFont("Roboto", 9, 50, false));
+    connect(edit_task_time, &QAction::triggered, [this, daytask] {
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
+
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+
+        QLabel* start_time_lbl = new QLabel("Start time", material_dlg);
+        QTimeEdit* start_time_edit = new QTimeEdit(QDateTime::currentDateTime().time(), material_dlg);
+        start_time_edit->setDisplayFormat("hh:mm");
+        start_time_edit->setTime(daytask.start_time);
+
+        main_layout->addRow(start_time_lbl, start_time_edit);
+
+        QLabel* duration_lbl = new QLabel("Duration", material_dlg);
+        QTimeEdit* duration_edit = new QTimeEdit(material_dlg);
+        duration_edit->setDisplayFormat("hh:mm");
+
+        main_layout->addRow(duration_lbl, duration_edit);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("Edit task time");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("CONFIRM");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, daytask, start_time_edit, duration_edit] {
+            editDayTaskTime(daytask.id, start_time_edit->time(), duration_edit->time());
+            material_dlg->close();
+        });
+        material_dlg->show();
+    });
 
 //    context_menu->addAction(view_breaks);
-//    context_menu->addAction(edit_task_time);
+    context_menu->addAction(edit_task_time);
     context_menu->addAction(remove_task);
     connect(more_btn, &QPushButton::clicked, [context_menu, more_btn] {
         context_menu->popup(more_btn->mapToGlobal(QPoint(-81,21)));
@@ -710,6 +741,18 @@ void MainWindow::initConnects()
             ui->switchTextViewBtn->click();
         ui->stackedWidget->setCurrentIndex(2);
     });
+}
+
+void MainWindow::editDayTaskTime(int daytask_id, QTime start_time, QTime duration)
+{
+    QTime attempted_end_time(start_time);
+    attempted_end_time = attempted_end_time.addSecs(duration.hour() * 60 * 60);
+    attempted_end_time = attempted_end_time.addSecs(duration.minute() * 60);
+
+    DayTaskController::setStartTime(current_date, daytask_id, start_time);
+    DayTaskController::setEndTime(current_date, daytask_id, attempted_end_time);
+
+    drawDayTasks();
 }
 
 MainWindow::~MainWindow()
