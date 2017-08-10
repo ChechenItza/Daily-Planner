@@ -15,7 +15,7 @@ namespace constants
     const QString dark_green = "#4caf50";
     const QString red = "#E53935";
     const QString purple = "#7e57c2";
-    const QString blue = "#00bcd4";
+    const QString blue = "#3f51b5";
 
     const std::array<QString, 6> color_arr { black, green, dark_green, red, purple, blue };
 }

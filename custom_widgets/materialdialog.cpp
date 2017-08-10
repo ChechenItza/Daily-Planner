@@ -33,7 +33,7 @@ MaterialDialog::~MaterialDialog()
 void MaterialDialog::insertLayout(QLayout *layout)
 {
     layout->setContentsMargins(24, 20, 24, 24);
-    layout->setSpacing(6);
+    layout->setSpacing(8);
 
     ui->verticalLayout->insertLayout(1, layout);
 }
