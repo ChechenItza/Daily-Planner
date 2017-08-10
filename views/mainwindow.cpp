@@ -203,14 +203,21 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
         mid_layout->setSpacing(0);
         mid_layout->setContentsMargins(0, 0, 0, 0);
 
-        QCustomLabel* task_count_lbl = new QCustomLabel(DayTaskController::getDayTasksTimeSum(chosen_date).toString("HH:mm"));
-        task_count_lbl->setFont(QFont("Roboto", 14, 60, false));
-        task_count_lbl->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Expanding);
+        QCustomLabel* task_time_sum_lbl = new QCustomLabel(day_btn);
+        QTime duration_sum(0, 0, 0, 0);
+        for (int i = 0; i < DayTaskController::dayTaskCount(chosen_date); i++) {
+            int h_secs = DayTaskController::getDayTask(chosen_date, i).duration.hour() * 60 * 60;
+            int m_secs = DayTaskController::getDayTask(chosen_date, i).duration.minute() * 60;
+            duration_sum = duration_sum.addSecs(h_secs + m_secs);
+        }
+        task_time_sum_lbl->setText(duration_sum.toString("HH:mm"));
+        task_time_sum_lbl->setFont(QFont("Roboto", 14, 60, false));
+        task_time_sum_lbl->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Expanding);
 
         QSpacerItem* left_spc = new QSpacerItem(10, 10, QSizePolicy::Expanding,QSizePolicy::Maximum);
         QSpacerItem* right_spc = new QSpacerItem(10, 10, QSizePolicy::Expanding,QSizePolicy::Maximum);
         mid_layout->addSpacerItem(left_spc);
-        mid_layout->addWidget(task_count_lbl);
+        mid_layout->addWidget(task_time_sum_lbl);
         mid_layout->addSpacerItem(right_spc);
         btn_layout->addLayout(mid_layout);
     } else {
@@ -221,7 +228,7 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
 //Day status bar or placeholder
     if (chosen_date <= QDate::currentDate()) {
         QPushButton* status = new QPushButton(day_btn);
-        status->setMaximumSize(9999999,5);
+        status->setMaximumSize(9999999, 5);
         status->setAutoFillBackground(true);
         status->setFlat(true);
         status->setCursor(QCursor(Qt::PointingHandCursor));
@@ -261,7 +268,7 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
         btn_layout->addWidget(status);
     } else {
         QPushButton* status_placeholder = new QPushButton(day_btn);
-        status_placeholder->setMaximumSize(9999999,5);
+        status_placeholder->setMaximumSize(9999999, 5);
         status_placeholder->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
         status_placeholder->setFlat(true);
         status_placeholder->setEnabled(false);
@@ -326,18 +333,13 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     status_color->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     status_color->setMinimumWidth(4);
     status_color->setAutoFillBackground(true);
-    QDateTime task_date(current_date, daytask.end_time);
+    QDateTime task_date(current_date, DayTaskController::getEndTime(current_date, daytask.id));
     QString style = "background: %1;";
     style += "border: 0px;";
-    if (task_date <= QDateTime::currentDateTime()) {
-        if (daytask.end_time.isNull()) {
-            style = style.arg(constants::red);
-        } else {
-            style = style.arg(constants::green);
-        }
-    } else {
+    if (task_date <= QDateTime::currentDateTime())
+        style = style.arg(constants::green);
+    else
         style = style.arg(constants::red);
-    }
     status_color->setStyleSheet(style);
 
     //... and icon
@@ -368,7 +370,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     time_separator_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     time_separator_lbl->setFont(QFont("Roboto", 9, 50, false));
     //end time
-    QCustomLabel* end_time_lbl = new QCustomLabel(daytask.end_time.toString("HH:mm"), daytask_widget);
+    QCustomLabel* end_time_lbl = new QCustomLabel(DayTaskController::getEndTime(current_date, daytask.id).toString("HH:mm"), daytask_widget);
     end_time_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     end_time_lbl->setFont(QFont("Roboto", 9, 50, false));
     end_time_lbl->setObjectName("end_time_lbl");
@@ -412,6 +414,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
         QLabel* duration_lbl = new QLabel("Duration", material_dlg);
         QTimeEdit* duration_edit = new QTimeEdit(material_dlg);
         duration_edit->setDisplayFormat("hh:mm");
+        duration_edit->setTime(daytask.duration);
 
         main_layout->addRow(duration_lbl, duration_edit);
 
@@ -490,7 +493,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     //Add either timeline or break info to the layout
     if (current_date == QDate::currentDate() &&
             daytask.start_time <= QTime::currentTime() &&
-            daytask.end_time > QTime::currentTime()) {
+            DayTaskController::getEndTime(current_date, daytask.id) > QTime::currentTime()) {
         TaskProgressBar* bar = new TaskProgressBar(current_date, daytask, daytask_widget);
         QTimer* timer = new QTimer(daytask_widget);
         connect(timer, &QTimer::timeout, [this, bar]() {
@@ -745,12 +748,8 @@ void MainWindow::initConnects()
 
 void MainWindow::editDayTaskTime(int daytask_id, QTime start_time, QTime duration)
 {
-    QTime attempted_end_time(start_time);
-    attempted_end_time = attempted_end_time.addSecs(duration.hour() * 60 * 60);
-    attempted_end_time = attempted_end_time.addSecs(duration.minute() * 60);
-
     DayTaskController::setStartTime(current_date, daytask_id, start_time);
-    DayTaskController::setEndTime(current_date, daytask_id, attempted_end_time);
+    DayTaskController::setDuration(current_date, daytask_id, duration);
 
     drawDayTasks();
 }

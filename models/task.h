@@ -80,15 +80,15 @@ class DayTask
 {
 public:
     DayTask() = default;
-    DayTask(int task_id, QTime start_time, QTime end_time);
+    DayTask(int task_id, QTime start_time, QTime duration);
     //From DB
-    DayTask(int id, int task_id, QString note, QTime start_time, QTime end_time);
+    DayTask(int id, int task_id, QString note, QTime start_time, QTime duration);
 
     int id;
     int task_id;
     QString note;
     QTime start_time;
-    QTime end_time;
+    QTime duration;
     std::vector<Break> break_vec;
 };
 

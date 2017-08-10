@@ -81,7 +81,7 @@ void DbController::create()
                       "`TaskId`     INTEGER,"
                       "`Note`       BLOB,"
                       "`StartTime`  TEXT,"
-                      "`EndTime`    TEXT,"
+                      "`Duration`   TEXT,"
                       "FOREIGN KEY(TaskId) REFERENCES Tasks(Id))");
     if (!init_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while creating the database. "
@@ -172,7 +172,7 @@ void DbController::init()
                             init_query.value(4).toInt(),            //task_id
                             init_query.value(5).toString(),         //note
                             init_query.value(6).toTime(),           //start_time
-                            init_query.value(7).toTime()));         //end_time
+                            init_query.value(7).toTime()));         //duration
     }
 
     init_query.exec("SELECT * FROM Days");
@@ -266,8 +266,8 @@ void DbController::deleteTask(Task task)
 void DbController::insertDayTask(QDate date, DayTask daytask)
 {
     QSqlQuery insert_query;
-    insert_query.prepare("INSERT INTO DayTasks (Id, Year, Month, Day, TaskId, Note, StartTime, EndTime) VALUES ("
-                         ":id, :y, :m, :d, :task_id, :note, :st, :et)");
+    insert_query.prepare("INSERT INTO DayTasks (Id, Year, Month, Day, TaskId, Note, StartTime, Duration) VALUES ("
+                         ":id, :y, :m, :d, :task_id, :note, :st, :du)");
     insert_query.bindValue(":id", QString::number(daytask.id));
     insert_query.bindValue(":y", date.year());
     insert_query.bindValue(":m", date.month());
@@ -275,7 +275,7 @@ void DbController::insertDayTask(QDate date, DayTask daytask)
     insert_query.bindValue(":task_id", daytask.task_id);
     insert_query.bindValue(":note", daytask.note);
     insert_query.bindValue(":st", daytask.start_time);
-    insert_query.bindValue(":et", daytask.end_time);
+    insert_query.bindValue(":du", daytask.duration);
     if (!insert_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while adding created day task to the database. "
                               "Program won't close, but created day task won't be saved");
@@ -287,7 +287,7 @@ void DbController::insertDayTask(QDate date, DayTask daytask)
 void DbController::updateDayTask(QDate date, DayTask daytask)
 {
     QSqlQuery update_query;
-    update_query.prepare("UPDATE DayTasks SET Note = :note, StartTime = :start_time, EndTime = :end_time WHERE "
+    update_query.prepare("UPDATE DayTasks SET Note = :note, StartTime = :start_time, Duration = :duration WHERE "
                             "Year = :y AND "
                             "Month = :m AND "
                             "Day = :d AND "
@@ -298,7 +298,7 @@ void DbController::updateDayTask(QDate date, DayTask daytask)
     update_query.bindValue(":id", daytask.id);
     update_query.bindValue(":note", daytask.note);
     update_query.bindValue(":start_time", daytask.start_time);
-    update_query.bindValue(":end_time", daytask.end_time);
+    update_query.bindValue(":duration", daytask.duration);
     if (!update_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while updating day task in the database. "
                               "Program won't close, but day task changes won't be saved");

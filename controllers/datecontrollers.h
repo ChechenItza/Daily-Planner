@@ -13,9 +13,9 @@ public:
     static DayTask getDayTask(QDate date, int index);
     static void setNote(QDate date, int id, QString note);
     static bool setStartTime(QDate date, int id, QTime start_time);
-    static bool setEndTime(QDate date, int id, QTime end_time);
+    static bool setDuration(QDate date, int id, QTime duration);
     static void removeDayTask(QDate date, int id);
-    static QTime getDayTasksTimeSum(QDate date);
+    static QTime getEndTime(QDate date, int id);
 
     static size_t dayTaskCount(QDate date);
 };

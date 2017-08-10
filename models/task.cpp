@@ -167,16 +167,16 @@ size_t TaskContainer::taskCount()
 // }}} TaskContainer
 
 //DayTask
-DayTask::DayTask(int task_id, QTime start_time, QTime end_time) :
+DayTask::DayTask(int task_id, QTime start_time, QTime duration) :
     task_id{task_id},
     note{""},
     start_time{start_time},
-    end_time{end_time} {}
+    duration{duration} {}
 
 //From DB
-DayTask::DayTask(int id, int task_id, QString note, QTime start_time, QTime end_time) :
+DayTask::DayTask(int id, int task_id, QString note, QTime start_time, QTime duration) :
     id{id},
     task_id{task_id},
     note{note},
     start_time{start_time},
-    end_time{end_time} {}
+    duration{duration} {}
