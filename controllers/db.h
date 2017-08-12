@@ -32,6 +32,7 @@ public:
 
     void insertGroup(Group);
     void updateGroup(Group);
+    void deleteGroup(Group group);
 
     void commit();
 

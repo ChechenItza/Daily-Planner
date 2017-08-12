@@ -441,6 +441,20 @@ void DbController::updateGroup(Group group)
     }
 }
 
+void DbController::deleteGroup(Group group)
+{
+    QSqlQuery delete_query;
+    delete_query.prepare("DELETE FROM Groups WHERE Id = :id");
+    delete_query.bindValue(":id", group.id);
+
+    if (!delete_query.exec()) {
+        QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while deleting the group from the database. "
+                              "Program won't close, but the group won't be deleted");
+        error_msg.exec();
+        qDebug() << delete_query.lastError() << "\n" << delete_query.lastQuery();
+    }
+}
+
 void DbController::commit()
 {
     data_db.commit();

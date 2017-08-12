@@ -23,6 +23,7 @@ public:
     Group getGroup(int index);
     void setName(int id, QString name);
     void setColor(int id, QString color);
+    void removeGroup(int id);
 
     size_t groupCount();
 

@@ -35,6 +35,8 @@ private:
     void addTask(QString icon_path, QString name, int group_id);
     void editTask(int task_id, QString icon_path, QString name, int group_id);
     void addGroup(QString name, QString color);
+    void drawGroups();
+    QWidget *genGroup(Group group);
 };
 
 #endif // TASKADDDIALOG_H

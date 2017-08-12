@@ -23,6 +23,7 @@ TaskDialog::TaskDialog(QDate current_date, QWidget *parent) :
 
     initConnects();
     drawTasks();
+    drawGroups();
 }
 
 void TaskDialog::drawTasks()
@@ -249,9 +250,135 @@ void TaskDialog::addGroup(QString name, QString color)
     drawTasks();
 }
 
+void TaskDialog::drawGroups()
+{
+    //clear groups
+    while (ui->groupSelectLayout->count() != 0) {
+        delete ui->groupSelectLayout->itemAt(0)->widget();
+    }
+
+    //page
+    QScrollArea* group_scroll = new QScrollArea(this);
+    group_scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    group_scroll->setWidgetResizable(true);
+    group_scroll->setFrameShape(QFrame::Shape::NoFrame);
+    group_scroll->setStyleSheet("QScrollArea { "
+                                     "border-bottom: 1px solid #d2d2d2; "
+                                     "border-top: 0px;"
+                                     "border-right: 0px;"
+                                     "border-left: 0px; }");
+    QWidget* group_widget = new QWidget();
+    group_widget->setStyleSheet("background-color: #fafafa;");
+    group_scroll->setWidget(group_widget);
+
+    QVBoxLayout* group_layout = new QVBoxLayout(group_widget);
+    group_layout->setSpacing(0);
+    group_layout->setContentsMargins(0, 0, 0, 0);
+
+    //add task widgets to it
+    for (int j = 0; j < group_container.groupCount(); j++) {
+        group_layout->addWidget(genGroup(group_container.getGroup(j)));
+    }
+    QSpacerItem* task_spacer = new QSpacerItem(40, 40, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    group_layout->addSpacerItem(task_spacer);
+
+    //add page to ui
+    ui->groupSelectLayout->addWidget(group_scroll);
+}
+
+QWidget* TaskDialog::genGroup(Group group)
+{
+    //container
+    QWidget* group_widget = new QWidget();
+    group_widget->setStyleSheet(".QWidget { border-bottom: 1px solid #d2d2d2; }");
+    //container layout
+    QHBoxLayout* group_layout = new QHBoxLayout(group_widget);
+    group_layout->setSpacing(6);
+
+    //group name and color
+    QCustomLabel* group_lbl = new QCustomLabel(group.name.toLower());
+    group_lbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    group_lbl->setFont(QFont("Roboto", 10, 75, false));
+    group_lbl->setStyleSheet("color: #ffffff;"
+                             "border: 1px solid;"
+                             "border-color:" + group.color + ";"
+                             "background:" + group.color + ";"
+                             "border-radius: 4px;");
+    group_layout->addWidget(group_lbl);
+
+    QSpacerItem* spacer = new QSpacerItem(10, 40, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    group_layout->addSpacerItem(spacer);
+
+    //"edit task" button
+    IconButton* edit_group_btn = new IconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
+    connect(edit_group_btn, &IconButton::clicked, [this, group] {
+        //material dialog template
+        MaterialDialog* material_dlg = new MaterialDialog(this);
+
+        //form a layout of controls
+        QFormLayout* main_layout = new QFormLayout();
+
+        QLabel* name_lbl = new QLabel("Name", material_dlg);
+        QLineEdit* name_edit = new QLineEdit(group.name, material_dlg);
+
+        main_layout->addRow(name_lbl, name_edit);
+
+        QLabel* color_lbl = new QLabel("Color", material_dlg);
+        QComboBox* color_box = new QComboBox(material_dlg);
+        color_box->setSizeAdjustPolicy(QComboBox::SizeAdjustPolicy::AdjustToMinimumContentsLengthWithIcon);
+        for (QString color : constants::color_arr) {
+            QPixmap pixmap(100, 100);
+            pixmap.fill(QColor(color));
+            color_box->addItem(QIcon(pixmap), color);
+        }
+        for (int i = 0; i < color_box->count(); i++) {
+            if (color_box->itemText(i) == group.color) {
+                color_box->setCurrentIndex(i);
+                break;
+            }
+        }
+
+        main_layout->addRow(color_lbl, color_box);
+
+        //add controls to the dialog
+        material_dlg->insertLayout(main_layout);
+        material_dlg->setHeading("Edit group");
+        material_dlg->setCancelBtnText("CANCEL");
+        material_dlg->setConfirmBtnText("CONFIRM");
+
+        connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, group, material_dlg, name_edit, color_box] {
+            group_container.setName(group.id, name_edit->text());
+            group_container.setColor(group.id, color_box->currentText());
+            drawGroups();
+            drawTasks();
+            emit changed();
+            material_dlg->close();
+        });
+        material_dlg->show();
+    });
+    group_layout->addWidget(edit_group_btn);
+
+    //"delete task" button
+    IconButton* delete_group_btn = new IconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
+    connect(delete_group_btn, &QPushButton::clicked, [this, group] {
+        if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this group? Every task template associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
+           group_container.removeGroup(group.id);
+           drawGroups();
+           drawTasks();
+           emit changed();
+        }
+    });
+    group_layout->addWidget(delete_group_btn);
+
+    return group_widget;
+}
+
 void TaskDialog::initConnects()
 {
     connect(ui->closeBtn, &QPushButton::clicked, [this] { this->close(); });
+    connect(ui->closeBtn_2, &QPushButton::clicked, [this] { this->close(); });
+    connect(ui->mngGroupsBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(1); });
+    connect(ui->mngTasksBtn, &QPushButton::clicked, [this] { ui->stackedWidget->setCurrentIndex(0); });
     connect(ui->addTaskBtn, &QPushButton::clicked, [this] {
         //material dialog template
         MaterialDialog* material_dlg = new MaterialDialog(this);
@@ -331,6 +458,7 @@ void TaskDialog::initConnects()
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, name_edit, color_box] {
             addGroup(name_edit->text(), color_box->currentText());
+            drawGroups();
             material_dlg->close();
         });
         material_dlg->show();

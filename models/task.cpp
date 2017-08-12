@@ -65,6 +65,19 @@ void GroupContainer::setColor(int id, QString color)
     db.updateGroup(_group_vec[group_index]);
 }
 
+void GroupContainer::removeGroup(int id)
+{
+    int group_index = findGroup(id, QString(typeid(GroupContainer).name()) + "::" + QString(__func__));
+
+    for (int i = 0; i < task_container.taskCount(); i++) {
+        if (task_container.getTask(i).group_id == id)
+            task_container.removeTask(task_container.getTask(i).id);
+    }
+
+    db.deleteGroup(_group_vec[group_index]);
+    _group_vec.erase(_group_vec.begin() + group_index);
+}
+
 size_t GroupContainer::groupCount()
 {
     return _group_vec.size();

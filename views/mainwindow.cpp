@@ -380,7 +380,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     //context menu and actions
     //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawDayTasks() when %remove_task is clicked
     QMenu* context_menu = new QMenu();
-    QAction* remove_task = new QAction("Remove", context_menu);
+    QAction* remove_task = new QAction("Delete", context_menu);
     remove_task->setFont(QFont("Roboto", 9, 50, false));
     connect(remove_task, &QAction::triggered, [this, daytask] {
         if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task?", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
