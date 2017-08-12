@@ -11,8 +11,8 @@ MaterialDialog::MaterialDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setModal(true);
     this->setAttribute(Qt::WA_DeleteOnClose);
-    this->setFont(QFont("Roboto Medium", 10));
-    this->setStyleSheet("color: rgba(0, 0, 0,  66%);");
+    this->setFont(QFont("Roboto", 10, 57, false));
+    this->setStyleSheet("color: rgba(0, 0, 0,  54%);");
 //    //center the window
 //    this->move(
 //       parent->window()->frameGeometry().topLeft() +

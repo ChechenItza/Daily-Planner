@@ -374,6 +374,17 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     end_time_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     end_time_lbl->setFont(QFont("Roboto", 9, 50, false));
     end_time_lbl->setObjectName("end_time_lbl");
+    //separator
+    QCustomLabel* duration_separator_lbl = new QCustomLabel(" | ", daytask_widget);
+    duration_separator_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+    duration_separator_lbl->setFont(QFont("Roboto", 11, 50, false));
+    //duration
+    QCustomLabel* duration_lbl = new QCustomLabel(daytask_widget);
+    duration_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+    duration_lbl->setFont(QFont("Roboto", 9, 50, true));
+    duration_lbl->setText(QString::number(daytask.duration.hour())
+                          + " hour(s) " + QString::number(daytask.duration.minute())
+                          + " minute(s)");
 //Buttons
     //more
     IconButton* more_btn = new IconButton(QIcon(":/Images/Resources/ic_more_vert_black_24px.svg"), daytask_widget);
@@ -479,6 +490,8 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     time_layout->addWidget(start_time_lbl);
     time_layout->addWidget(time_separator_lbl);
     time_layout->addWidget(end_time_lbl);
+    time_layout->addWidget(duration_separator_lbl);
+    time_layout->addWidget(duration_lbl);
 
     QHBoxLayout* middle_layout = new QHBoxLayout();
     middle_layout->setContentsMargins(0, 0, 0, 0);
