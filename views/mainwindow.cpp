@@ -333,13 +333,19 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     status_color->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     status_color->setMinimumWidth(4);
     status_color->setAutoFillBackground(true);
-    QDateTime task_date(current_date, DayTaskController::getEndTime(current_date, daytask.id));
-    QString style = "background: %1;";
-    style += "border: 0px;";
-    if (task_date <= QDateTime::currentDateTime())
-        style = style.arg(constants::green);
-    else
+    //QDateTime task_date(current_date, DayTaskController::getEndTime(current_date, daytask.id));
+    QString style = "background: %1; border: 0px;";
+    switch (daytask.is_done) {
+    case 0:
         style = style.arg(constants::red);
+        break;
+    case 1:
+        style = style.arg(constants::green);
+        break;
+//    case 2:
+//        style = style.arg(constants::red);
+//        break;
+    }
     status_color->setStyleSheet(style);
 
     //... and icon
@@ -391,6 +397,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
     //context menu and actions
     //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawDayTasks() when %remove_task is clicked
     QMenu* context_menu = new QMenu();
+    //delete task
     QAction* remove_task = new QAction("Delete", context_menu);
     remove_task->setFont(QFont("Roboto", 9, 50, false));
     connect(remove_task, &QAction::triggered, [this, daytask] {
@@ -406,6 +413,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
 //        connect(break_window, &BreakWindow::breakAdded, [this] { drawDayTasks(); });
 //        break_window->show();
 //    });
+    //edit task time
     QAction* edit_task_time = new QAction("Edit time", context_menu);
     edit_task_time->setFont(QFont("Roboto", 9, 50, false));
     connect(edit_task_time, &QAction::triggered, [this, daytask] {
@@ -441,7 +449,38 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
         });
         material_dlg->show();
     });
+    //mark as done
+    QAction* mark_done = new QAction(context_menu);
+    mark_done->setFont(QFont("Roboto", 9, 50, false));
+    switch (daytask.is_done) {
+    case 0:
+        mark_done->setText("Mark done");
+        connect(mark_done, &QAction::triggered, [this, daytask] {
+            DayTaskController::setStatus(current_date, daytask.id, 1);
+            drawDayTasks();
+        });
+        break;
+    case 1:
+        mark_done->setText("Mark undone");
+        connect(mark_done, &QAction::triggered, [this, daytask] {
+            DayTaskController::setStatus(current_date, daytask.id, 0);
+            drawDayTasks();
+        });
+        break;
+//    case 2:
+//        mark_done->setText("Mark done");
+//        connect(mark_done, &QAction::triggered, [this, daytask] {
+//            int secs = daytask.start_time.secsTo(QTime::currentTime());
+//            QTime duration(0,0,0,0);
+//            duration.addSecs(secs);
+//            DayTaskController::setDuration(current_date, daytask.id, duration);
+//            DayTaskController::setStatus(current_date, daytask.id, 1);
+//            drawDayTasks();
+//        });
+//        break;
+    }
 
+    context_menu->addAction(mark_done);
 //    context_menu->addAction(view_breaks);
     context_menu->addAction(edit_task_time);
     context_menu->addAction(remove_task);

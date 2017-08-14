@@ -115,6 +115,16 @@ bool DayTaskController::setDuration(QDate date, int id, QTime duration)
     return true;
 }
 
+void DayTaskController::setStatus(QDate date, int id, int is_done)
+{
+    DayTask& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+
+    if (is_done < 3) {
+        daytask.is_done = is_done;
+        db.updateDayTask(date, daytask);
+    }
+}
+
 void DayTaskController::removeDayTask(QDate date, int id)
 {
     db.deleteDayTask(date, findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__)));

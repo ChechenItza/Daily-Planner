@@ -14,6 +14,7 @@ public:
     static void setNote(QDate date, int id, QString note);
     static bool setStartTime(QDate date, int id, QTime start_time);
     static bool setDuration(QDate date, int id, QTime duration);
+    static void setStatus(QDate date, int id, int is_done);
     static void removeDayTask(QDate date, int id);
     static QTime getEndTime(QDate date, int id);
 
