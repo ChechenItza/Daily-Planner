@@ -20,6 +20,7 @@
 #include <QDesktopWidget>
 #include <QFormLayout>
 #include <QTimeEdit>
+#include <QComboBox>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -29,6 +30,24 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     db;
+
+    ui->monthBox->addItem("January");
+    ui->monthBox->addItem("February");
+    ui->monthBox->addItem("March");
+    ui->monthBox->addItem("April");
+    ui->monthBox->addItem("May");
+    ui->monthBox->addItem("June");
+    ui->monthBox->addItem("July");
+    ui->monthBox->addItem("August");
+    ui->monthBox->addItem("September");
+    ui->monthBox->addItem("October");
+    ui->monthBox->addItem("November");
+    ui->monthBox->addItem("December");
+
+    for (int i = constants::START_YEAR; i < constants::FINAL_YEAR; i++) {
+        ui->yearBox->addItem(QString::number(i));
+    }
+
     initConnects();
     redrawDate();
     drawDayButtons();
@@ -42,23 +61,6 @@ MainWindow::MainWindow(QWidget *parent) :
             qApp->desktop()->availableGeometry()
         )
     );
-
-    QtMaterialSelectField *sfp = new QtMaterialSelectField;
-    sfp->setPlaceholderText("Favorite language");
-    //sfp->setBackgroundColor(Qt::white);
-    ui->verticalLayout_9->addWidget(sfp);
-    {
-        sfp->addItem("C");
-        sfp->addItem("C++");
-        sfp->addItem("Haskell");
-        sfp->addItem("JavaScript");
-        sfp->addItem("ECMAScript");
-        sfp->addItem("OCaml");
-        sfp->addItem("Python");
-        sfp->addItem("F#");
-        sfp->addItem("Clojure");
-        sfp->addItem("Java");
-    }
 
 //shadow effect for stats window elements
 //    CustomShadowEffect *body_shadow_1 = new CustomShadowEffect();
@@ -635,10 +637,10 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
 void MainWindow::redrawDate()
 {
     //Redraw current date
-    ui->monthLabel->setText(QDate::longMonthName(current_date.month()));
+    ui->monthBox->setCurrentIndex(current_date.month() - 1);
     ui->monthLabel_2->setText(QDate::longMonthName(current_date.month()));
     ui->monthLabel_3->setText(QDate::longMonthName(current_date.month()));
-    ui->yearLabel->setText(QString::number(current_date.year()));
+    ui->yearBox->setCurrentIndex(current_date.year() - constants::START_YEAR);
     ui->yearLabel_2->setText(QString::number(current_date.year()));
     ui->yearLabel_3->setText(QString::number(current_date.year()));
     ui->dayLabel->setText(QString::number(current_date.day()));
@@ -648,36 +650,12 @@ void MainWindow::redrawDate()
 void MainWindow::initConnects()
 {
 //On "change date" button click
-    connect(ui->prevMonthBtn, &QPushButton::clicked, this, [this] () {
-        if (current_date.month() > 1) {
-            current_date.setDate(current_date.year(), current_date.month() - 1, current_date.day());
-
-            if (current_date.year() == constants::START_YEAR && current_date.month() == 1)
-                ui->prevMonthBtn->setDisabled(true);
-
-            if (!ui->nextMonthBtn->isEnabled())
-                ui->nextMonthBtn->setEnabled(true);
-
-        } else if (current_date.month() == 1) {
-            current_date.setDate(current_date.year() - 1, 12, current_date.day());
-        }
-        redrawDate();
+    connect(ui->monthBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this] (int index) {
+        current_date.setDate(current_date.year(), index + 1, current_date.day());
         drawDayButtons();
     });
-    connect(ui->nextMonthBtn, &QPushButton::clicked, this, [this] () {
-        if (current_date.month() < 12) {
-            current_date.setDate(current_date.year(), current_date.month() + 1, current_date.day());
-
-            if (current_date.year() == constants::FINAL_YEAR && current_date.month() == 12)
-                ui->nextMonthBtn->setDisabled(true);
-
-            if (!ui->prevMonthBtn->isEnabled())
-                ui->prevMonthBtn->setEnabled(true);
-
-        } else if (current_date.month() == 12) {
-            current_date.setDate(current_date.year() + 1, 1,current_date.day());
-        }
-        redrawDate();
+    connect(ui->yearBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this] (int index) {
+        current_date.setDate(index + constants::START_YEAR, current_date.month(), current_date.day());
         drawDayButtons();
     });
 
