@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql qml
 CONFIG   += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,40 +12,320 @@ TARGET = OrganiserMVC
 TEMPLATE = app
 
 
-SOURCES += \
-    controllers/datecontrollers.cpp \
+SOURCES += controllers/datecontrollers.cpp \
     controllers/db.cpp \
-    custom_widgets/customshadoweffect.cpp \
-    custom_widgets/iconbutton.cpp \
     custom_widgets/qcustomlabel.cpp \
     custom_widgets/taskprogressbar.cpp \
+    custom_widgets/myiconbutton.cpp \
+    custom_widgets/mycustomshadoweffect.cpp \
+    custom_widgets/materialdialog.cpp \
     helpers/iconmanager.cpp \
     models/date.cpp \
     models/task.cpp \
     views/mainwindow.cpp \
     views/taskdialog.cpp \
     main.cpp \
-    custom_widgets/materialdialog.cpp
+    custom_widgets/material_widgets/components/appbar.cpp \
+    custom_widgets/material_widgets/components/appmenu.cpp \
+    custom_widgets/material_widgets/components/avatar.cpp \
+    custom_widgets/material_widgets/components/badge.cpp \
+    custom_widgets/material_widgets/components/checkbox.cpp \
+    custom_widgets/material_widgets/components/circularprogress.cpp \
+    custom_widgets/material_widgets/components/circularprogress_internal.cpp \
+    custom_widgets/material_widgets/components/collapsiblemenu.cpp \
+    custom_widgets/material_widgets/components/dialog.cpp \
+    custom_widgets/material_widgets/components/dialog_internal.cpp \
+    custom_widgets/material_widgets/components/drawer.cpp \
+    custom_widgets/material_widgets/components/drawer_internal.cpp \
+    custom_widgets/material_widgets/components/fab.cpp \
+    custom_widgets/material_widgets/components/flatbutton.cpp \
+    custom_widgets/material_widgets/components/flatbutton_internal.cpp \
+    custom_widgets/material_widgets/components/iconbutton.cpp \
+    custom_widgets/material_widgets/components/iconmenu.cpp \
+    custom_widgets/material_widgets/components/iconmenuplus.cpp \
+    custom_widgets/material_widgets/components/list.cpp \
+    custom_widgets/material_widgets/components/menu.cpp \
+    custom_widgets/material_widgets/components/menuitemplus.cpp \
+    custom_widgets/material_widgets/components/menuplus.cpp \
+    custom_widgets/material_widgets/components/menuplusproxy.cpp \
+    custom_widgets/material_widgets/components/progress.cpp \
+    custom_widgets/material_widgets/components/progress_internal.cpp \
+    custom_widgets/material_widgets/components/radiobutton.cpp \
+    custom_widgets/material_widgets/components/raisedbutton.cpp \
+    custom_widgets/material_widgets/components/scrollwidget.cpp \
+    custom_widgets/material_widgets/components/scrollwidget_internal.cpp \
+    custom_widgets/material_widgets/components/searchfield.cpp \
+    custom_widgets/material_widgets/components/selectfield.cpp \
+    custom_widgets/material_widgets/components/selectfieldplus.cpp \
+    custom_widgets/material_widgets/components/slider.cpp \
+    custom_widgets/material_widgets/components/slider_internal.cpp \
+    custom_widgets/material_widgets/components/snackbar.cpp \
+    custom_widgets/material_widgets/components/snackbar_internal.cpp \
+    custom_widgets/material_widgets/components/table.cpp \
+    custom_widgets/material_widgets/components/tabs.cpp \
+    custom_widgets/material_widgets/components/tabs_internal.cpp \
+    custom_widgets/material_widgets/components/textfield.cpp \
+    custom_widgets/material_widgets/components/textfield_internal.cpp \
+    custom_widgets/material_widgets/components/toggle.cpp \
+    custom_widgets/material_widgets/components/toggle_internal.cpp \
+    custom_widgets/material_widgets/lib/checkable.cpp \
+    custom_widgets/material_widgets/lib/checkable_internal.cpp \
+    custom_widgets/material_widgets/lib/customshadoweffect.cpp \
+    custom_widgets/material_widgets/lib/overlaywidget.cpp \
+    custom_widgets/material_widgets/lib/ripple.cpp \
+    custom_widgets/material_widgets/lib/rippleoverlay.cpp \
+    custom_widgets/material_widgets/lib/scaleeffect.cpp \
+    custom_widgets/material_widgets/lib/sizeproxy.cpp \
+    custom_widgets/material_widgets/lib/sizeproxywidget.cpp \
+    custom_widgets/material_widgets/lib/style.cpp \
+    custom_widgets/material_widgets/lib/testrippleoverlay.cpp \
+    custom_widgets/material_widgets/lib/theme.cpp \
+    custom_widgets/material_widgets/lib/transparencyproxy.cpp \
+    custom_widgets/material_widgets/lib/transparencyproxy_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialavatar.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialbadge.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialcheckbox.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialcircularprogress.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialcircularprogress_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialcollapsiblemenu.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialcollapsiblemenu_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialdialog.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialdialog_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialfab.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialflatbutton.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialflatbutton_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialiconbutton.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialiconmenu.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialmenuitem.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialmenuitem_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialprogress.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialprogress_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialradiobutton.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialraisedbutton.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialscrollbar.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialscrollbar_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialselectfield.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialslider.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialslider_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialsnackbar.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialsnackbar_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtabs.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtabs_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtextfield.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtextfield_internal.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtoggle.cpp \
+    custom_widgets/material_widgets/xx/qtmaterialtoggle_internal.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialcheckable.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialcheckable_internal.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialoverlaywidget.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialripple.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialrippleoverlay.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialstatetransition.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialstyle.cpp \
+    custom_widgets/material_widgets/xxlib/qtmaterialtheme.cpp \
+    custom_widgets/material_widgets/yy/avatarsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/badgesettingseditor.cpp \
+    custom_widgets/material_widgets/yy/checkboxsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/circularprogresssettingseditor.cpp \
+    custom_widgets/material_widgets/yy/fabsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/flatbuttonsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/iconmenusettingseditor.cpp \
+    custom_widgets/material_widgets/yy/progresssettingseditor.cpp \
+    custom_widgets/material_widgets/yy/radiobuttonsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/raisedbuttonsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/selectfieldsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/slidersettingseditor.cpp \
+    custom_widgets/material_widgets/yy/textfieldsettingseditor.cpp \
+    custom_widgets/material_widgets/yy/togglesettingseditor.cpp
 
-HEADERS  += \
-    controllers/datecontrollers.h \
+HEADERS  += controllers/datecontrollers.h \
     controllers/db.h \
-    custom_widgets/customshadoweffect.h \
-    custom_widgets/iconbutton.h \
     custom_widgets/qcustomlabel.h \
     custom_widgets/taskprogressbar.h \
+    custom_widgets/myiconbutton.h \
+    custom_widgets/mycustomshadoweffect.h \
+    custom_widgets/materialdialog.h \
     helpers/iconmanager.h \
     models/date.h \
     models/task.h \
     settings/constants.h \
     views/mainwindow.h \
     views/taskdialog.h \
-    custom_widgets/materialdialog.h
+    custom_widgets/material_widgets/components/appbar.h \
+    custom_widgets/material_widgets/components/appmenu.h \
+    custom_widgets/material_widgets/components/avatar.h \
+    custom_widgets/material_widgets/components/avatar_p.h \
+    custom_widgets/material_widgets/components/badge.h \
+    custom_widgets/material_widgets/components/badge_p.h \
+    custom_widgets/material_widgets/components/checkbox.h \
+    custom_widgets/material_widgets/components/checkbox_p.h \
+    custom_widgets/material_widgets/components/circularprogress.h \
+    custom_widgets/material_widgets/components/circularprogress_internal.h \
+    custom_widgets/material_widgets/components/circularprogress_p.h \
+    custom_widgets/material_widgets/components/collapsiblemenu.h \
+    custom_widgets/material_widgets/components/dialog.h \
+    custom_widgets/material_widgets/components/dialog_internal.h \
+    custom_widgets/material_widgets/components/dialog_p.h \
+    custom_widgets/material_widgets/components/drawer.h \
+    custom_widgets/material_widgets/components/drawer_internal.h \
+    custom_widgets/material_widgets/components/drawer_p.h \
+    custom_widgets/material_widgets/components/fab.h \
+    custom_widgets/material_widgets/components/fab_p.h \
+    custom_widgets/material_widgets/components/flatbutton.h \
+    custom_widgets/material_widgets/components/flatbutton_internal.h \
+    custom_widgets/material_widgets/components/flatbutton_p.h \
+    custom_widgets/material_widgets/components/iconbutton.h \
+    custom_widgets/material_widgets/components/iconbutton_p.h \
+    custom_widgets/material_widgets/components/iconmenu.h \
+    custom_widgets/material_widgets/components/iconmenuplus.h \
+    custom_widgets/material_widgets/components/list.h \
+    custom_widgets/material_widgets/components/menu.h \
+    custom_widgets/material_widgets/components/menuitemplus.h \
+    custom_widgets/material_widgets/components/menuplus.h \
+    custom_widgets/material_widgets/components/menuplusproxy.h \
+    custom_widgets/material_widgets/components/progress.h \
+    custom_widgets/material_widgets/components/progress_internal.h \
+    custom_widgets/material_widgets/components/progress_p.h \
+    custom_widgets/material_widgets/components/radiobutton.h \
+    custom_widgets/material_widgets/components/radiobutton_p.h \
+    custom_widgets/material_widgets/components/raisedbutton.h \
+    custom_widgets/material_widgets/components/raisedbutton_p.h \
+    custom_widgets/material_widgets/components/scrollwidget.h \
+    custom_widgets/material_widgets/components/scrollwidget_internal.h \
+    custom_widgets/material_widgets/components/scrollwidget_p.h \
+    custom_widgets/material_widgets/components/searchfield.h \
+    custom_widgets/material_widgets/components/selectfield.h \
+    custom_widgets/material_widgets/components/selectfieldplus.h \
+    custom_widgets/material_widgets/components/slider.h \
+    custom_widgets/material_widgets/components/slider_internal.h \
+    custom_widgets/material_widgets/components/slider_p.h \
+    custom_widgets/material_widgets/components/snackbar.h \
+    custom_widgets/material_widgets/components/snackbar_internal.h \
+    custom_widgets/material_widgets/components/snackbar_p.h \
+    custom_widgets/material_widgets/components/table.h \
+    custom_widgets/material_widgets/components/tabs.h \
+    custom_widgets/material_widgets/components/tabs_internal.h \
+    custom_widgets/material_widgets/components/tabs_p.h \
+    custom_widgets/material_widgets/components/textfield.h \
+    custom_widgets/material_widgets/components/textfield_internal.h \
+    custom_widgets/material_widgets/components/textfield_p.h \
+    custom_widgets/material_widgets/components/toggle.h \
+    custom_widgets/material_widgets/components/toggle_internal.h \
+    custom_widgets/material_widgets/components/toggle_p.h \
+    custom_widgets/material_widgets/lib/checkable.h \
+    custom_widgets/material_widgets/lib/checkable_internal.h \
+    custom_widgets/material_widgets/lib/checkable_p.h \
+    custom_widgets/material_widgets/lib/customshadoweffect.h \
+    custom_widgets/material_widgets/lib/overlaywidget.h \
+    custom_widgets/material_widgets/lib/ripple.h \
+    custom_widgets/material_widgets/lib/rippleoverlay.h \
+    custom_widgets/material_widgets/lib/scaleeffect.h \
+    custom_widgets/material_widgets/lib/sizeproxy.h \
+    custom_widgets/material_widgets/lib/sizeproxywidget.h \
+    custom_widgets/material_widgets/lib/style.h \
+    custom_widgets/material_widgets/lib/testrippleoverlay.h \
+    custom_widgets/material_widgets/lib/theme.h \
+    custom_widgets/material_widgets/lib/theme_p.h \
+    custom_widgets/material_widgets/lib/transparencyproxy.h \
+    custom_widgets/material_widgets/lib/transparencyproxy_internal.h \
+    custom_widgets/material_widgets/lib/transparencyproxy_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialavatar.h \
+    custom_widgets/material_widgets/xx/qtmaterialavatar_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialbadge.h \
+    custom_widgets/material_widgets/xx/qtmaterialbadge_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialcheckbox.h \
+    custom_widgets/material_widgets/xx/qtmaterialcheckbox_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialcircularprogress.h \
+    custom_widgets/material_widgets/xx/qtmaterialcircularprogress_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialcircularprogress_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialcollapsiblemenu.h \
+    custom_widgets/material_widgets/xx/qtmaterialcollapsiblemenu_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialcollapsiblemenu_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialdialog.h \
+    custom_widgets/material_widgets/xx/qtmaterialdialog_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialdialog_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialfab.h \
+    custom_widgets/material_widgets/xx/qtmaterialfab_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialflatbutton.h \
+    custom_widgets/material_widgets/xx/qtmaterialflatbutton_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialflatbutton_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialiconbutton.h \
+    custom_widgets/material_widgets/xx/qtmaterialiconbutton_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialiconmenu.h \
+    custom_widgets/material_widgets/xx/qtmaterialiconmenu_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialmenuitem.h \
+    custom_widgets/material_widgets/xx/qtmaterialmenuitem_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialmenuitem_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialprogress.h \
+    custom_widgets/material_widgets/xx/qtmaterialprogress_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialprogress_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialradiobutton.h \
+    custom_widgets/material_widgets/xx/qtmaterialradiobutton_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialraisedbutton.h \
+    custom_widgets/material_widgets/xx/qtmaterialraisedbutton_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialscrollbar.h \
+    custom_widgets/material_widgets/xx/qtmaterialscrollbar_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialscrollbar_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialselectfield.h \
+    custom_widgets/material_widgets/xx/qtmaterialselectfield_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialslider.h \
+    custom_widgets/material_widgets/xx/qtmaterialslider_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialslider_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialsnackbar.h \
+    custom_widgets/material_widgets/xx/qtmaterialsnackbar_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialsnackbar_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialtabs.h \
+    custom_widgets/material_widgets/xx/qtmaterialtabs_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialtabs_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialtextfield.h \
+    custom_widgets/material_widgets/xx/qtmaterialtextfield_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialtextfield_p.h \
+    custom_widgets/material_widgets/xx/qtmaterialtoggle.h \
+    custom_widgets/material_widgets/xx/qtmaterialtoggle_internal.h \
+    custom_widgets/material_widgets/xx/qtmaterialtoggle_p.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialcheckable.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialcheckable_internal.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialcheckable_p.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialoverlaywidget.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialripple.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialrippleoverlay.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialstatetransition.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialstatetransitionevent.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialstyle.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialstyle_p.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialtheme.h \
+    custom_widgets/material_widgets/xxlib/qtmaterialtheme_p.h \
+    custom_widgets/material_widgets/yy/avatarsettingseditor.h \
+    custom_widgets/material_widgets/yy/badgesettingseditor.h \
+    custom_widgets/material_widgets/yy/checkboxsettingseditor.h \
+    custom_widgets/material_widgets/yy/circularprogresssettingseditor.h \
+    custom_widgets/material_widgets/yy/fabsettingseditor.h \
+    custom_widgets/material_widgets/yy/flatbuttonsettingseditor.h \
+    custom_widgets/material_widgets/yy/iconmenusettingseditor.h \
+    custom_widgets/material_widgets/yy/progresssettingseditor.h \
+    custom_widgets/material_widgets/yy/radiobuttonsettingseditor.h \
+    custom_widgets/material_widgets/yy/raisedbuttonsettingseditor.h \
+    custom_widgets/material_widgets/yy/selectfieldsettingseditor.h \
+    custom_widgets/material_widgets/yy/slidersettingseditor.h \
+    custom_widgets/material_widgets/yy/textfieldsettingseditor.h \
+    custom_widgets/material_widgets/yy/togglesettingseditor.h
 
-FORMS    += \
-    views/mainwindow.ui \
+FORMS    += views/mainwindow.ui \
     views/taskdialog.ui \
-    custom_widgets/materialdialog.ui
+    custom_widgets/materialdialog.ui \
+    custom_widgets/material_widgets/yy/avatarsettingsform.ui \
+    custom_widgets/material_widgets/yy/badgesettingsform.ui \
+    custom_widgets/material_widgets/yy/checkboxsettingsform.ui \
+    custom_widgets/material_widgets/yy/circularprogresssettingsform.ui \
+    custom_widgets/material_widgets/yy/fabsettingsform.ui \
+    custom_widgets/material_widgets/yy/flatbuttonsettingsform.ui \
+    custom_widgets/material_widgets/yy/iconmenusettingsform.ui \
+    custom_widgets/material_widgets/yy/progresssettingsform.ui \
+    custom_widgets/material_widgets/yy/radiobuttonsettingsform.ui \
+    custom_widgets/material_widgets/yy/selectfieldsettingsform.ui \
+    custom_widgets/material_widgets/yy/slidersettingsform.ui \
+    custom_widgets/material_widgets/yy/textfieldsettingsform.ui \
+    custom_widgets/material_widgets/yy/togglesettingsform.ui
 
 RESOURCES += \
     resources.qrc

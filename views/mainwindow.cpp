@@ -6,10 +6,11 @@
 #include "controllers/datecontrollers.h"
 #include "custom_widgets/qcustomlabel.h"
 #include "custom_widgets/taskprogressbar.h"
-#include "custom_widgets/customshadoweffect.h"
+#include "custom_widgets/mycustomshadoweffect.h"
 #include "views/taskdialog.h"
-#include "custom_widgets/iconbutton.h"
+#include "custom_widgets/myiconbutton.h"
 #include "custom_widgets/materialdialog.h"
+#include "custom_widgets/material_widgets/xx/qtmaterialselectfield.h"
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>
@@ -41,6 +42,23 @@ MainWindow::MainWindow(QWidget *parent) :
             qApp->desktop()->availableGeometry()
         )
     );
+
+    QtMaterialSelectField *sfp = new QtMaterialSelectField;
+    sfp->setPlaceholderText("Favorite language");
+    //sfp->setBackgroundColor(Qt::white);
+    ui->verticalLayout_9->addWidget(sfp);
+    {
+        sfp->addItem("C");
+        sfp->addItem("C++");
+        sfp->addItem("Haskell");
+        sfp->addItem("JavaScript");
+        sfp->addItem("ECMAScript");
+        sfp->addItem("OCaml");
+        sfp->addItem("Python");
+        sfp->addItem("F#");
+        sfp->addItem("Clojure");
+        sfp->addItem("Java");
+    }
 
 //shadow effect for stats window elements
 //    CustomShadowEffect *body_shadow_1 = new CustomShadowEffect();
@@ -178,7 +196,7 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
     top_layout->addSpacerItem(top_spc);
     //note button or placeholder
     if (!DayController::getNote(chosen_date).isEmpty()) {
-        IconButton* note_btn = new IconButton(QIcon(":/Images/Resources/ic_note_black_24px.svg"), day_btn);
+        MyIconButton* note_btn = new MyIconButton(QIcon(":/Images/Resources/ic_note_black_24px.svg"), day_btn);
         connect(note_btn, &QPushButton::clicked, [this, chosen_date] {
             current_date.setDate(chosen_date.year(), chosen_date.month(), chosen_date.day());
             is_month_window = true;
@@ -191,7 +209,7 @@ QPushButton* MainWindow::genDayBtn(QDate chosen_date)
         });
         top_layout->addWidget(note_btn);
     } else {
-        IconButton* note_placeholder_btn = new IconButton(day_btn);
+        MyIconButton* note_placeholder_btn = new MyIconButton(day_btn);
         note_placeholder_btn->setEnabled(false);
         top_layout->addWidget(note_placeholder_btn);
     }
@@ -320,7 +338,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
 //Container
     QWidget* daytask_widget = new QWidget(this);
     //shadow effect
-    CustomShadowEffect *bodyShadow = new CustomShadowEffect();
+    MyCustomShadowEffect *bodyShadow = new MyCustomShadowEffect();
     bodyShadow->setBlurRadius(6.0);
     bodyShadow->setDistance(2.0);
     bodyShadow->setColor(QColor(0, 0, 0, 20));
@@ -393,7 +411,7 @@ QWidget* MainWindow::genDayTask(const DayTask& daytask)
                           + " minute(s)");
 //Buttons
     //more
-    IconButton* more_btn = new IconButton(QIcon(":/Images/Resources/ic_more_vert_black_24px.svg"), daytask_widget);
+    MyIconButton* more_btn = new MyIconButton(QIcon(":/Images/Resources/ic_more_vert_black_24px.svg"), daytask_widget);
     //context menu and actions
     //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawDayTasks() when %remove_task is clicked
     QMenu* context_menu = new QMenu();

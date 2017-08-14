@@ -3,7 +3,7 @@
 #include "models/task.h"
 #include "helpers/iconmanager.h"
 #include "custom_widgets/qcustomlabel.h"
-#include "custom_widgets/iconbutton.h"
+#include "custom_widgets/myiconbutton.h"
 #include "custom_widgets/materialdialog.h"
 #include "controllers/datecontrollers.h"
 #include <QMessageBox>
@@ -107,7 +107,7 @@ QWidget* TaskDialog::genTask(Task task)
     task_layout->addSpacerItem(spacer);
 
     //"create daytask" button
-    IconButton* add_task_btn = new IconButton(QIcon(":/Images/Resources/ic_add_black_24px.svg"));
+    MyIconButton* add_task_btn = new MyIconButton(QIcon(":/Images/Resources/ic_add_black_24px.svg"));
     //prompt a dialog on click
     connect(add_task_btn, &QPushButton::clicked, [this, task] {
         //material dialog template
@@ -143,8 +143,8 @@ QWidget* TaskDialog::genTask(Task task)
     task_layout->addWidget(add_task_btn);
 
     //"edit task" button
-    IconButton* edit_task_btn = new IconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
-    connect(edit_task_btn, &IconButton::clicked, [this, task] {
+    MyIconButton* edit_task_btn = new MyIconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
+    connect(edit_task_btn, &MyIconButton::clicked, [this, task] {
         //material dialog template
         MaterialDialog* material_dlg = new MaterialDialog(this);
 
@@ -205,7 +205,7 @@ QWidget* TaskDialog::genTask(Task task)
     task_layout->addWidget(edit_task_btn);
 
     //"delete task" button
-    IconButton* delete_task_btn = new IconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
+    MyIconButton* delete_task_btn = new MyIconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
     connect(delete_task_btn, &QPushButton::clicked, [this, task] {
         if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task? Every day task associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
            task_container.removeTask(task.id);
@@ -310,8 +310,8 @@ QWidget* TaskDialog::genGroup(Group group)
     group_layout->addSpacerItem(spacer);
 
     //"edit task" button
-    IconButton* edit_group_btn = new IconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
-    connect(edit_group_btn, &IconButton::clicked, [this, group] {
+    MyIconButton* edit_group_btn = new MyIconButton(QIcon(":/Images/Resources/ic_mode_edit_black_24px.svg"));
+    connect(edit_group_btn, &MyIconButton::clicked, [this, group] {
         //material dialog template
         MaterialDialog* material_dlg = new MaterialDialog(this);
 
@@ -359,7 +359,7 @@ QWidget* TaskDialog::genGroup(Group group)
     group_layout->addWidget(edit_group_btn);
 
     //"delete task" button
-    IconButton* delete_group_btn = new IconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
+    MyIconButton* delete_group_btn = new MyIconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
     connect(delete_group_btn, &QPushButton::clicked, [this, group] {
         if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this group? Every task template associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
            group_container.removeGroup(group.id);
