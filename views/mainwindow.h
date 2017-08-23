@@ -22,14 +22,10 @@ public:
 
 private:
     void openTaskDlg();
-    QPushButton* genDayBtn(QDate chosen_date);
-    QPushButton* genEmptyDayBtn();
     void drawDayButtons();
-    QWidget* genDayTask(const DayTask& daytask);
     void drawDayTasks();
     void redrawDate();
     void initConnects();
-    void editDayTaskTime(int daytask_id, QTime start_time, QTime duration);
 
     Ui::MainWindow *ui;
     TaskDialog* task_dlg;
