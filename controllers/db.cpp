@@ -6,6 +6,8 @@
 #include "models/date.h"
 #include "settings/constants.h"
 #include "controllers/datecontrollers.h"
+#include "controllers/groupcontainer.h"
+#include "controllers/taskcontainer.h"
 
 DbController::DbController()
 {

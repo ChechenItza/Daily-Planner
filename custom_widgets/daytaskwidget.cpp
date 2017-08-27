@@ -4,6 +4,8 @@
 #include "custom_widgets/mycustomshadoweffect.h"
 #include "custom_widgets/myiconbutton.h"
 #include "custom_widgets/materialdialog.h"
+#include "controllers/taskcontainer.h"
+#include "controllers/groupcontainer.h"
 #include <QMenu>
 #include <QMessageBox>
 #include <algorithm>

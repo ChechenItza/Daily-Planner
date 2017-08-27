@@ -6,6 +6,8 @@
 #include "custom_widgets/myiconbutton.h"
 #include "custom_widgets/materialdialog.h"
 #include "controllers/datecontrollers.h"
+#include "controllers/groupcontainer.h"
+#include "controllers/taskcontainer.h"
 #include <QMessageBox>
 #include <QScrollArea>
 #include <QFormLayout>

@@ -1,7 +1,7 @@
 #ifndef CUSTOMPROGRESSBAR_H
 #define CUSTOMPROGRESSBAR_H
 #include <QProgressBar>
-#include "models/task.h"
+#include "models/daytask.h"
 
 class TaskProgressBar : public QProgressBar
 {

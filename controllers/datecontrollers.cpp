@@ -1,5 +1,6 @@
 ﻿#include <QMessageBox>
 #include <typeinfo>
+#include "controllers/taskcontainer.h"
 #include "controllers/datecontrollers.h"
 #include "settings/constants.h"
 #include "db.h"

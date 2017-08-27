@@ -2,6 +2,7 @@
 #define TASKADDDIALOG_H
 
 #include <QDialog>
+#include "models/group.h"
 #include "models/task.h"
 class IconManager;
 class QTimeEdit;

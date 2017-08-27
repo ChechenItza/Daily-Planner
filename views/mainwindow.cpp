@@ -1,17 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "QDate"
 #include "settings/constants.h"
 #include "controllers/db.h"
 #include "controllers/datecontrollers.h"
 #include "custom_widgets/mycustomshadoweffect.h"
 #include "views/taskdialog.h"
-#include <QMessageBox>
-#include <QStyle>
-#include <QDesktopWidget>
 #include "custom_widgets/daytaskwidget.h"
 #include "custom_widgets/daywidget.h"
 #include "custom_widgets/emptydaywidget.h"
+#include <QMessageBox>
+#include <QStyle>
+#include <QDesktopWidget>
+#include <QDate>
 
 
 MainWindow::MainWindow(QWidget *parent) :

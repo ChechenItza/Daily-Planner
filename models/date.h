@@ -5,7 +5,7 @@
 #include <array>
 #include <QString>
 #include "settings/constants.h"
-#include "models/task.h"
+#include "models/daytask.h"
 
 
 class Day
