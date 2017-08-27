@@ -5,7 +5,7 @@
 #include <array>
 #include <QString>
 #include "settings/constants.h"
-#include "models/daytask.h"
+#include "models/task.h"
 
 
 class Day
@@ -17,7 +17,7 @@ public:
     int weekday;
     constants::status_t status;
     QString note;
-    std::vector<DayTask> daytask_vec;
+    std::vector<Task> daytask_vec;
 };
 
 class Month

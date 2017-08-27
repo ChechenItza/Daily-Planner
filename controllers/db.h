@@ -2,8 +2,8 @@
 #define DATABASE_H
 
 #include <QtSql>
-struct Task;
-class DayTask;
+struct TaskTemplate;
+class Task;
 struct Break;
 class Day;
 struct Group;
@@ -17,13 +17,13 @@ public:
     void create();
     void init();
 
-    void insertTask(Task task);
-    void updateTask(Task task);
-    void deleteTask(Task task);
+    void insertTask(TaskTemplate task);
+    void updateTask(TaskTemplate task);
+    void deleteTask(TaskTemplate task);
 
-    void insertDayTask(QDate date, DayTask daytask);
-    void updateDayTask(QDate date, DayTask daytask);
-    void deleteDayTask(QDate date, DayTask daytask);
+    void insertDayTask(QDate date, Task daytask);
+    void updateDayTask(QDate date, Task daytask);
+    void deleteDayTask(QDate date, Task daytask);
 
     void insertBreak(QDate date, int task_id, Break brk);
     void deleteBreak(QDate date, int daytask_id, Break brk);

@@ -2,7 +2,7 @@
 #include <sys/stat.h>
 #include <QDebug>
 #include "controllers/db.h"
-#include "models/task.h"
+#include "models/tasktemplate.h"
 #include "models/date.h"
 #include "settings/constants.h"
 #include "controllers/datecontrollers.h"
@@ -139,7 +139,7 @@ void DbController::create()
     group_container.addGroupFromDb(Group{"Miscellaneous", constants::red, 0});
     //Initial task  (! this call is made from a static object to another static object)
     init_query.exec("INSERT INTO Tasks (Id, Text, GroupId, Icon) VALUES (0, 'Eat', 0, 'icons/soup.png')");
-    task_container.addTaskFromDb(Task{"Eat", 0, "icons/soup.png", 0});
+    task_container.addTaskFromDb(TaskTemplate{"Eat", 0, "icons/soup.png", 0});
 
     data_db.commit();
 }
@@ -158,7 +158,7 @@ void DbController::init()
 
     init_query.exec("SELECT * FROM Tasks");
     while (init_query.next()) {
-        task_container.addTaskFromDb(Task{init_query.value(1).toString(),   //name
+        task_container.addTaskFromDb(TaskTemplate{init_query.value(1).toString(),   //name
                                 init_query.value(2).toInt(),                //group
                                 init_query.value(3).toString(),             //icon
                                 init_query.value(0).toInt()});              //id
@@ -171,7 +171,7 @@ void DbController::init()
                     QDate(init_query.value(1).toInt(),              //year
                           init_query.value(2).toInt(),              //month
                           init_query.value(3).toInt()),             //day
-                    DayTask(init_query.value(0).toInt(),            //id
+                    Task(init_query.value(0).toInt(),            //id
                             init_query.value(4).toInt(),            //task_id
                             init_query.value(5).toString(),         //note
                             init_query.value(6).toTime(),           //start_time
@@ -220,7 +220,7 @@ void DbController::init()
     }
 }
 
-void DbController::insertTask(Task task)
+void DbController::insertTask(TaskTemplate task)
 {
     //Save task to the database
     QSqlQuery insert_query;
@@ -237,7 +237,7 @@ void DbController::insertTask(Task task)
     }
 }
 
-void DbController::updateTask(Task task)
+void DbController::updateTask(TaskTemplate task)
 {
     //Update task in the database
     QSqlQuery update_query;
@@ -254,7 +254,7 @@ void DbController::updateTask(Task task)
     }
 }
 
-void DbController::deleteTask(Task task)
+void DbController::deleteTask(TaskTemplate task)
 {
     QSqlQuery delete_query;
     delete_query.prepare("DELETE FROM Tasks WHERE Id = :id");
@@ -267,7 +267,7 @@ void DbController::deleteTask(Task task)
     }
 }
 
-void DbController::insertDayTask(QDate date, DayTask daytask)
+void DbController::insertDayTask(QDate date, Task daytask)
 {
     QSqlQuery insert_query;
     insert_query.prepare("INSERT INTO DayTasks (Id, Year, Month, Day, TaskId, Note, StartTime, Duration, IsDone) VALUES ("
@@ -289,7 +289,7 @@ void DbController::insertDayTask(QDate date, DayTask daytask)
     }
 }
 
-void DbController::updateDayTask(QDate date, DayTask daytask)
+void DbController::updateDayTask(QDate date, Task daytask)
 {
     QSqlQuery update_query;
     update_query.prepare("UPDATE DayTasks SET Note = :note, StartTime = :start_time, Duration = :duration, IsDone = :is_done WHERE "
@@ -313,7 +313,7 @@ void DbController::updateDayTask(QDate date, DayTask daytask)
     }
 }
 
-void DbController::deleteDayTask(QDate date, DayTask daytask)
+void DbController::deleteDayTask(QDate date, Task daytask)
 {
     QSqlQuery delete_query;
     delete_query.prepare("DELETE FROM DayTasks WHERE Year = :y AND Month = :m AND Day = :d AND Id = :id");

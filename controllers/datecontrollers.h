@@ -2,15 +2,15 @@
 #define DATECONTROLLER_H
 
 #include "models/date.h"
-#include "models/task.h"
+#include "models/tasktemplate.h"
 class QDate;
 
 class DayTaskController
 {
 public:
-    static void addDayTask(QDate date, DayTask daytask);
-    static void addDayTaskFromDb(QDate date, DayTask daytask);
-    static DayTask getDayTask(QDate date, int index);
+    static void addDayTask(QDate date, Task daytask);
+    static void addDayTaskFromDb(QDate date, Task daytask);
+    static Task getDayTask(QDate date, int index);
     static void setNote(QDate date, int id, QString note);
     static bool setStartTime(QDate date, int id, QTime start_time);
     static bool setDuration(QDate date, int id, QTime duration);

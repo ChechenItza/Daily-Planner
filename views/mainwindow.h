@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QDate>
-#include "models/task.h"
+#include "models/tasktemplate.h"
 
 class TaskDialog;
 class QPushButton;

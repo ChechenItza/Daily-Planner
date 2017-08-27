@@ -159,11 +159,11 @@ void MainWindow::drawDayTasks()
     }
 
 //Sort daytasks by start time
-    std::vector<DayTask> sorted_vec;
+    std::vector<Task> sorted_vec;
     for (int i = 0; i < DayTaskController::dayTaskCount(current_date); i++) {
         sorted_vec.push_back(DayTaskController::getDayTask(current_date, i));
     }
-    std::sort(sorted_vec.begin(), sorted_vec.end(), [] (DayTask daytask1, DayTask daytask2) -> bool {
+    std::sort(sorted_vec.begin(), sorted_vec.end(), [] (Task daytask1, Task daytask2) -> bool {
         return daytask1.start_time < daytask2.start_time;
     });
 

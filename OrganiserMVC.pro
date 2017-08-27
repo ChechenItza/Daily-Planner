@@ -27,9 +27,9 @@ SOURCES += controllers/datecontrollers.cpp \
     custom_widgets/daytaskwidget.cpp \
     custom_widgets/daywidget.cpp \
     custom_widgets/emptydaywidget.cpp \
-    models/daytask.cpp \
     controllers/groupcontainer.cpp \
-    controllers/taskcontainer.cpp
+    controllers/taskcontainer.cpp \
+    models/task.cpp
 
 HEADERS  += controllers/datecontrollers.h \
     controllers/db.h \
@@ -40,7 +40,6 @@ HEADERS  += controllers/datecontrollers.h \
     custom_widgets/materialdialog.h \
     helpers/iconmanager.h \
     models/date.h \
-    models/task.h \
     settings/constants.h \
     views/mainwindow.h \
     views/taskdialog.h \
@@ -49,9 +48,10 @@ HEADERS  += controllers/datecontrollers.h \
     custom_widgets/emptydaywidget.h \
     models/group.h \
     models/break.h \
-    models/daytask.h \
     controllers/groupcontainer.h \
-    controllers/taskcontainer.h
+    controllers/taskcontainer.h \
+    models/tasktemplate.h \
+    models/task.h
 
 FORMS    += views/mainwindow.ui \
     views/taskdialog.ui \

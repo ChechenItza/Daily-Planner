@@ -31,7 +31,7 @@ int TaskContainer::findTask(int id, QString method)
     genError(id, method);
 }
 
-void TaskContainer::addTask(Task task)
+void TaskContainer::addTask(TaskTemplate task)
 {
     if (_task_vec.empty())
         task.id = 0;
@@ -42,17 +42,17 @@ void TaskContainer::addTask(Task task)
     db.insertTask(task);
 }
 
-void TaskContainer::addTaskFromDb(Task task)
+void TaskContainer::addTaskFromDb(TaskTemplate task)
 {
     _task_vec.push_back(task);
 }
 
-Task TaskContainer::getTask(int index)
+TaskTemplate TaskContainer::getTask(int index)
 {
     return _task_vec[index];
 }
 
-Task TaskContainer::findTask(int id)
+TaskTemplate TaskContainer::findTask(int id)
 {
     int task_index = findTask(id, QString(typeid(TaskContainer).name()) + "::" + QString(__func__));
     return _task_vec[task_index];

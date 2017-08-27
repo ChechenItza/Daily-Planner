@@ -7,7 +7,7 @@
 #include "controllers/datecontrollers.h"
 
 
-TaskProgressBar::TaskProgressBar(QDate current_date, DayTask task, QWidget* parent) :
+TaskProgressBar::TaskProgressBar(QDate current_date, Task task, QWidget* parent) :
     current_date{current_date},
     task{task},
     QProgressBar(parent)

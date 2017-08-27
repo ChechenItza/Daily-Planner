@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "models/group.h"
-#include "models/task.h"
+#include "models/tasktemplate.h"
 class IconManager;
 class QTimeEdit;
 
@@ -26,11 +26,11 @@ private:
     Ui::TaskAddDialog *ui;
     IconManager* icon_mng;
     QDate current_date;
-    Task current_task;
+    TaskTemplate current_task;
 
     void initConnects();
     void drawTasks();
-    QWidget* genTask(Task task);
+    QWidget* genTask(TaskTemplate task);
 
     void addDayTask(int task_id, QTime start_time, QTime duration);
     void addTask(QString icon_path, QString name, int group_id);

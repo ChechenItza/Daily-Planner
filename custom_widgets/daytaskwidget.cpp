@@ -19,7 +19,7 @@
 #include <QTimer>
 #include <QPalette>
 
-DayTaskWidget::DayTaskWidget(QDate date, DayTask daytask, QWidget *parent) :
+DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
     QWidget(parent),
     current_date{date}
 {

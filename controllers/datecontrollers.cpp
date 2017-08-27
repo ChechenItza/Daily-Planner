@@ -14,9 +14,9 @@ namespace {
         throw;
     }
 
-    DayTask& findDayTask(QDate date, int id, QString method)
+    Task& findDayTask(QDate date, int id, QString method)
     {
-        for (DayTask& daytask : date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec) {
+        for (Task& daytask : date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec) {
             if (daytask.id == id)
                 return daytask;
         }
@@ -26,7 +26,7 @@ namespace {
 
     int findBreakIndex(QDate date, int daytask_id, int id, QString method)
     {
-        DayTask& daytask = findDayTask(date, daytask_id, method);
+        Task& daytask = findDayTask(date, daytask_id, method);
         for (int i = 0; i < daytask.break_vec.size(); i++) {
             if (daytask.break_vec[i].id == id)
                 return i;
@@ -45,7 +45,7 @@ namespace {
 }
 
 // DayTaskController {{{
-void DayTaskController::addDayTask(QDate date, DayTask daytask)
+void DayTaskController::addDayTask(QDate date, Task daytask)
 {
     //set id
     if (date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.empty())
@@ -61,7 +61,7 @@ void DayTaskController::addDayTask(QDate date, DayTask daytask)
     db.insertDayTask(date, daytask);
 }
 
-void DayTaskController::addDayTaskFromDb(QDate date, DayTask daytask)
+void DayTaskController::addDayTaskFromDb(QDate date, Task daytask)
 {
     //link this daytask to a template task
     task_container.linkDayTask(daytask.task_id, date, daytask.id);
@@ -69,21 +69,21 @@ void DayTaskController::addDayTaskFromDb(QDate date, DayTask daytask)
     date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec.push_back(daytask);
 }
 
-DayTask DayTaskController::getDayTask(QDate date, int index)
+Task DayTaskController::getDayTask(QDate date, int index)
 {
     return date_singleton[date.year()-constants::START_YEAR][date.month()-1][date.day()-1].daytask_vec[index];
 }
 
 void DayTaskController::setNote(QDate date, int id, QString note)
 {
-    DayTask& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+    Task& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
     daytask.note = note;
     db.updateDayTask(date, daytask);
 }
 
 bool DayTaskController::setStartTime(QDate date, int id, QTime start_time)
 {
-    DayTask& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+    Task& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
 
     for (int i = 0; i < BreakController::breakCount(date, id); i++) {
         if (BreakController::getBreak(date, id, i).start_time < start_time)
@@ -98,7 +98,7 @@ bool DayTaskController::setStartTime(QDate date, int id, QTime start_time)
 
 bool DayTaskController::setDuration(QDate date, int id, QTime duration)
 {
-    DayTask& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+    Task& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
 
     QTime end_time = daytask.start_time;
     int h_secs = duration.hour() * 60 * 60;
@@ -118,7 +118,7 @@ bool DayTaskController::setDuration(QDate date, int id, QTime duration)
 
 void DayTaskController::setStatus(QDate date, int id, int is_done)
 {
-    DayTask& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+    Task& daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
 
     if (is_done < 3) {
         daytask.is_done = is_done;
@@ -136,7 +136,7 @@ void DayTaskController::removeDayTask(QDate date, int id)
 
 QTime DayTaskController::getEndTime(QDate date, int id)
 {
-    DayTask daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
+    Task daytask = findDayTask(date, id, QString(typeid(DayTaskController).name()) + "::" + QString(__func__));
 
     int h_secs = daytask.duration.hour() * 60 * 60;
     int m_secs = daytask.duration.minute() * 60;
@@ -205,7 +205,7 @@ Break BreakController::getBreak(QDate date, int daytask_id, int index)
 
 void BreakController::removeBreak(QDate date, int daytask_id, int id)
 {
-    DayTask& daytask = findDayTask(date, daytask_id, QString(typeid(BreakController).name()) + "::" + QString(__func__));
+    Task& daytask = findDayTask(date, daytask_id, QString(typeid(BreakController).name()) + "::" + QString(__func__));
     int break_index = findBreakIndex(date, daytask_id, id, QString(typeid(BreakController).name()) + "::" + QString(__func__));
 
     db.deleteBreak(date, daytask_id, daytask.break_vec[break_index]);

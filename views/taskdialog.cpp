@@ -1,6 +1,6 @@
 #include "taskdialog.h"
 #include "ui_taskdialog.h"
-#include "models/task.h"
+#include "models/tasktemplate.h"
 #include "helpers/iconmanager.h"
 #include "custom_widgets/qcustomlabel.h"
 #include "custom_widgets/myiconbutton.h"
@@ -85,7 +85,7 @@ void TaskDialog::drawTasks()
     ui->tabWidget->setCurrentIndex(index);
 }
 
-QWidget* TaskDialog::genTask(Task task)
+QWidget* TaskDialog::genTask(TaskTemplate task)
 {
     //container
     QWidget* task_widget = new QWidget();
@@ -223,7 +223,7 @@ QWidget* TaskDialog::genTask(Task task)
 void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
 {
 ///TODO: SANITIZE USER INPUT
-    DayTaskController::addDayTask(current_date, DayTask(task_id, start_time, duration));
+    DayTaskController::addDayTask(current_date, Task(task_id, start_time, duration));
 
     emit changed();
 }
@@ -231,7 +231,7 @@ void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
 void TaskDialog::addTask(QString icon_path, QString name, int group_id)
 {
 ///TODO: SANITIZE USER INPUT
-    task_container.addTask(Task{ name, group_id, icon_path });
+    task_container.addTask(TaskTemplate{ name, group_id, icon_path });
 
     drawTasks();
 }

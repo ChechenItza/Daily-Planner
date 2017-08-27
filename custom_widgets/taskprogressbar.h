@@ -1,13 +1,13 @@
 #ifndef CUSTOMPROGRESSBAR_H
 #define CUSTOMPROGRESSBAR_H
 #include <QProgressBar>
-#include "models/daytask.h"
+#include "models/task.h"
 
 class TaskProgressBar : public QProgressBar
 {
 Q_OBJECT
 public:
-    TaskProgressBar(QDate current_date, DayTask task, QWidget* parent = 0);
+    TaskProgressBar(QDate current_date, Task task, QWidget* parent = 0);
 
 public slots:
     void progress();
@@ -23,7 +23,7 @@ private:
 
     std::vector<QTime> break_vec;
     QDate current_date;
-    DayTask task;
+    Task task;
     float value;
     int fragment_count;
     float step;

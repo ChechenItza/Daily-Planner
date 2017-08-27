@@ -8,7 +8,7 @@ class DayTaskWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DayTaskWidget(QDate date, DayTask daytask, QWidget *parent = nullptr);
+    explicit DayTaskWidget(QDate date, Task daytask, QWidget *parent = nullptr);
 
 signals:
     void redrawNeeded();

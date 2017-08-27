@@ -2,7 +2,7 @@
 #define TASKCONTAINER_H
 
 #include <vector>
-#include "models/task.h"
+#include "models/tasktemplate.h"
 #include "models/group.h"
 
 class TaskContainer
@@ -10,10 +10,10 @@ class TaskContainer
 public:
     static TaskContainer& getInstance();
 
-    void addTask(Task task);
-    void addTaskFromDb(Task task);
-    Task getTask(int index);
-    Task findTask(int id);
+    void addTask(TaskTemplate task);
+    void addTaskFromDb(TaskTemplate task);
+    TaskTemplate getTask(int index);
+    TaskTemplate findTask(int id);
     void setName(int id, QString name);
     void setGroup(int id, int group_id);
     Group getGroup(int id);
@@ -26,7 +26,7 @@ public:
 private:
     TaskContainer() = default;
 
-    std::vector<Task> _task_vec;
+    std::vector<TaskTemplate> _task_vec;
     int findTask(int id, QString method);
 };
 #define task_container TaskContainer::getInstance()
