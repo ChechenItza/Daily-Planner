@@ -267,20 +267,20 @@ void DbController::deleteTaskTemplate(TaskTemplate task)
     }
 }
 
-void DbController::insertTask(QDate date, Task Task)
+void DbController::insertTask(QDate date, Task task)
 {
     QSqlQuery insert_query;
     insert_query.prepare("INSERT INTO Tasks (Id, Year, Month, Day, TaskTemplateId, Note, StartTime, Duration, IsDone) VALUES ("
                          ":id, :y, :m, :d, :task_id, :note, :st, :du, :isd)");
-    insert_query.bindValue(":id", QString::number(Task.id));
+    insert_query.bindValue(":id", QString::number(task.id));
     insert_query.bindValue(":y", date.year());
     insert_query.bindValue(":m", date.month());
     insert_query.bindValue(":d", date.day());
-    insert_query.bindValue(":task_id", Task.tasktemplate_id);
-    insert_query.bindValue(":note", Task.note);
-    insert_query.bindValue(":st", Task.start_time);
-    insert_query.bindValue(":du", Task.duration);
-    insert_query.bindValue(":isd", Task.is_done);
+    insert_query.bindValue(":task_id", task.tasktemplate_id);
+    insert_query.bindValue(":note", task.note);
+    insert_query.bindValue(":st", task.start_time);
+    insert_query.bindValue(":du", task.duration);
+    insert_query.bindValue(":isd", task.is_done);
     if (!insert_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while adding created day task to the database. "
                               "Program won't close, but created day task won't be saved");
@@ -289,7 +289,7 @@ void DbController::insertTask(QDate date, Task Task)
     }
 }
 
-void DbController::updateTask(QDate date, Task Task)
+void DbController::updateTask(QDate date, Task task)
 {
     QSqlQuery update_query;
     update_query.prepare("UPDATE Tasks SET Note = :note, StartTime = :start_time, Duration = :duration, IsDone = :is_done WHERE "
@@ -300,11 +300,11 @@ void DbController::updateTask(QDate date, Task Task)
     update_query.bindValue(":y", date.year());
     update_query.bindValue(":m", date.month());
     update_query.bindValue(":d", date.day());
-    update_query.bindValue(":id", Task.id);
-    update_query.bindValue(":note", Task.note);
-    update_query.bindValue(":start_time", Task.start_time);
-    update_query.bindValue(":duration", Task.duration);
-    update_query.bindValue(":is_done", Task.is_done);
+    update_query.bindValue(":id", task.id);
+    update_query.bindValue(":note", task.note);
+    update_query.bindValue(":start_time", task.start_time);
+    update_query.bindValue(":duration", task.duration);
+    update_query.bindValue(":is_done", task.is_done);
     if (!update_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while updating day task in the database. "
                               "Program won't close, but day task changes won't be saved");
@@ -313,14 +313,14 @@ void DbController::updateTask(QDate date, Task Task)
     }
 }
 
-void DbController::deleteTask(QDate date, Task Task)
+void DbController::deleteTask(QDate date, Task task)
 {
     QSqlQuery delete_query;
     delete_query.prepare("DELETE FROM Tasks WHERE Year = :y AND Month = :m AND Day = :d AND Id = :id");
     delete_query.bindValue(":y", date.year());
     delete_query.bindValue(":m", date.month());
     delete_query.bindValue(":d", date.day());
-    delete_query.bindValue(":id", Task.id);
+    delete_query.bindValue(":id", task.id);
     if (!delete_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while deleting day task from the database. "
                               "Program won't close, but day task won't be deleted");

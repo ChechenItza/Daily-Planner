@@ -21,17 +21,17 @@ public:
     void updateTaskTemplate(TaskTemplate task);
     void deleteTaskTemplate(TaskTemplate task);
 
-    void insertTask(QDate date, Task Task);
-    void updateTask(QDate date, Task Task);
-    void deleteTask(QDate date, Task Task);
+    void insertTask(QDate date, Task task);
+    void updateTask(QDate date, Task task);
+    void deleteTask(QDate date, Task task);
 
     void insertBreak(QDate date, int task_id, Break brk);
     void deleteBreak(QDate date, int Task_id, Break brk);
 
     void updateDay(QDate date, Day day);
 
-    void insertGroup(Group);
-    void updateGroup(Group);
+    void insertGroup(Group group);
+    void updateGroup(Group group);
     void deleteGroup(Group group);
 
     void commit();
