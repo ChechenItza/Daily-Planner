@@ -22,19 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     db;
 
-    ui->monthBox->addItem("January");
-    ui->monthBox->addItem("February");
-    ui->monthBox->addItem("March");
-    ui->monthBox->addItem("April");
-    ui->monthBox->addItem("May");
-    ui->monthBox->addItem("June");
-    ui->monthBox->addItem("July");
-    ui->monthBox->addItem("August");
-    ui->monthBox->addItem("September");
-    ui->monthBox->addItem("October");
-    ui->monthBox->addItem("November");
-    ui->monthBox->addItem("December");
+    //Fill %monthBox with months
+    for (int i = 1; i < 13; i++) {
+        ui->monthBox->addItem(QDate::longMonthName(i));
+    }
 
+    //Fill %yearBox with years
     for (int i = constants::START_YEAR; i < constants::FINAL_YEAR; i++) {
         ui->yearBox->addItem(QString::number(i));
     }
