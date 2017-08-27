@@ -5,7 +5,7 @@
 #include "controllers/datecontrollers.h"
 #include "custom_widgets/mycustomshadoweffect.h"
 #include "views/taskdialog.h"
-#include "custom_widgets/daytaskwidget.h"
+#include "custom_widgets/taskwidget.h"
 #include "custom_widgets/daywidget.h"
 #include "custom_widgets/emptydaywidget.h"
 #include <QMessageBox>
@@ -76,7 +76,7 @@ void MainWindow::openTaskDlg()
     task_dlg = new TaskDialog(current_date, this);
     task_dlg->setModal(true);
     task_dlg->setAttribute(Qt::WA_DeleteOnClose);
-    connect(task_dlg, &TaskDialog::changed, [this] { drawDayTasks(); });
+    connect(task_dlg, &TaskDialog::changed, [this] { drawTasks(); });
 
     task_dlg->show();
 }
@@ -110,7 +110,7 @@ void MainWindow::drawDayButtons()
             QDate tmp_date(day_widget->getDate());
             current_date.setDate(tmp_date.year(), tmp_date.month(), tmp_date.day());
             redrawDate();
-            drawDayTasks();
+            drawTasks();
             ui->stackedWidget->setCurrentIndex(1);
         });
         connect(day_widget, &DayWidget::redrawIsNeeded, [this] {
@@ -150,32 +150,35 @@ void MainWindow::drawDayButtons()
     }
 }
 
-void MainWindow::drawDayTasks()
+void MainWindow::drawTasks()
 {
-//Delete all previous daytask widgets in %daytask_widget_vec
-    if (!daytask_widget_vec.empty()) {
-        std::for_each(daytask_widget_vec.begin(), daytask_widget_vec.end(), [] (QWidget* widget) { delete widget; });
-        daytask_widget_vec.clear();
+//Delete all previous Task widgets in %Task_widget_vec
+    if (!task_widget_vec.empty()) {
+        std::for_each(task_widget_vec.begin(), task_widget_vec.end(), [] (QWidget* widget) { delete widget; });
+        task_widget_vec.clear();
     }
 
-//Sort daytasks by start time
+//Sort Tasks by start time
     std::vector<Task> sorted_vec;
-    for (int i = 0; i < DayTaskController::dayTaskCount(current_date); i++) {
-        sorted_vec.push_back(DayTaskController::getDayTask(current_date, i));
+    for (int i = 0; i < TaskController::TaskCount(current_date); i++) {
+        sorted_vec.push_back(TaskController::getTask(current_date, i));
     }
-    std::sort(sorted_vec.begin(), sorted_vec.end(), [] (Task daytask1, Task daytask2) -> bool {
-        return daytask1.start_time < daytask2.start_time;
+    std::sort(sorted_vec.begin(), sorted_vec.end(), [] (Task task1, Task task2) -> bool {
+        return task1.start_time < task2.start_time;
     });
 
-//Fill %daytask_widget_vec with daytask widgets
+//Fill %Task_widget_vec with Task widgets
     for (int i = 0; i < sorted_vec.size(); i++) {
-        DayTaskWidget* daytask_widget = new DayTaskWidget(current_date, sorted_vec[i], this);
-        daytask_widget_vec.push_back(daytask_widget);
+        TaskWidget* task_widget = new TaskWidget(current_date, sorted_vec[i], this);
+        connect(task_widget, &TaskWidget::redrawNeeded, [this] {
+            drawTasks();
+        });
+        task_widget_vec.push_back(task_widget);
     }
 
-//Add daytask widgets to ui
-    for (int i = 0; i < daytask_widget_vec.size(); i++) {
-        ui->taskLayout->addWidget(daytask_widget_vec[i]);
+//Add Task widgets to ui
+    for (int i = 0; i < task_widget_vec.size(); i++) {
+        ui->taskLayout->addWidget(task_widget_vec[i]);
     }
 }
 

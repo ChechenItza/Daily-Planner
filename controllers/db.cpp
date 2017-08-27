@@ -7,7 +7,7 @@
 #include "settings/constants.h"
 #include "controllers/datecontrollers.h"
 #include "controllers/groupcontainer.h"
-#include "controllers/taskcontainer.h"
+#include "controllers/tasktemplatecontainer.h"
 
 DbController::DbController()
 {
@@ -61,7 +61,7 @@ void DbController::create()
         throw std::runtime_error("Error in the database schema @Database::create()");
     }
 
-    init_query.prepare("CREATE TABLE `Tasks` ( "
+    init_query.prepare("CREATE TABLE `TaskTemplates` ( "
                       "`Id`     INTEGER NOT NULL PRIMARY KEY UNIQUE, "
                       "`Text`   TEXT,"
                       "`GroupId`INTEGER,"
@@ -75,17 +75,17 @@ void DbController::create()
         throw std::runtime_error("Error in the database schema @Database::create()");
     }
 
-    init_query.prepare("CREATE TABLE `DayTasks` ( "
+    init_query.prepare("CREATE TABLE `Tasks` ( "
                       "`Id`         INTEGER NOT NULL, "
                       "`Year`       INTEGER,"
                       "`Month`      INTEGER,"
                       "`Day`        INTEGER,"
-                      "`TaskId`     INTEGER,"
+                      "`TaskTemplateId`     INTEGER,"
                       "`Note`       BLOB,"
                       "`StartTime`  TEXT,"
                       "`Duration`   TEXT,"
                       "`IsDone`     INTEGER,"
-                      "FOREIGN KEY(TaskId) REFERENCES Tasks(Id))");
+                      "FOREIGN KEY(TaskTemplateId) REFERENCES Tasks(Id))");
     if (!init_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while creating the database. "
                               "Program will be closed.");
@@ -99,10 +99,10 @@ void DbController::create()
                       "`Year`       INTEGER,"
                       "`Month`      INTEGER,"
                       "`Day`        INTEGER,"
-                      "`DayTaskId`  INTEGER,"
+                      "`TaskId`  INTEGER,"
                       "`StartTime`  TEXT,"
                       "`EndTime`    TEXT,"
-                      "FOREIGN KEY(DayTaskId) REFERENCES DayTasks(Id))");
+                      "FOREIGN KEY(TaskId) REFERENCES Tasks(Id))");
     if (!init_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while creating the database. "
                               "Program will be closed.");
@@ -138,8 +138,8 @@ void DbController::create()
     init_query.exec("INSERT INTO Groups (Id, Name, Color) VALUES (0, 'Miscellaneous', '" + constants::red + "')");
     group_container.addGroupFromDb(Group{"Miscellaneous", constants::red, 0});
     //Initial task  (! this call is made from a static object to another static object)
-    init_query.exec("INSERT INTO Tasks (Id, Text, GroupId, Icon) VALUES (0, 'Eat', 0, 'icons/soup.png')");
-    task_container.addTaskFromDb(TaskTemplate{"Eat", 0, "icons/soup.png", 0});
+    init_query.exec("INSERT INTO TaskTemplates (Id, Text, GroupId, Icon) VALUES (0, 'Eat', 0, 'icons/soup.png')");
+    tasktemplate_container.addTaskTemplateFromDb(TaskTemplate{"Eat", 0, "icons/soup.png", 0});
 
     data_db.commit();
 }
@@ -156,18 +156,18 @@ void DbController::init()
 
     }
 
-    init_query.exec("SELECT * FROM Tasks");
+    init_query.exec("SELECT * FROM TaskTemplates");
     while (init_query.next()) {
-        task_container.addTaskFromDb(TaskTemplate{init_query.value(1).toString(),   //name
+        tasktemplate_container.addTaskTemplateFromDb(TaskTemplate{init_query.value(1).toString(),   //name
                                 init_query.value(2).toInt(),                //group
                                 init_query.value(3).toString(),             //icon
                                 init_query.value(0).toInt()});              //id
 
     }
 
-    init_query.exec("SELECT * FROM DayTasks");
+    init_query.exec("SELECT * FROM Tasks");
     while (init_query.next()) {
-        DayTaskController::addDayTaskFromDb(
+        TaskController::addTaskFromDb(
                     QDate(init_query.value(1).toInt(),              //year
                           init_query.value(2).toInt(),              //month
                           init_query.value(3).toInt()),             //day
@@ -213,18 +213,18 @@ void DbController::init()
         BreakController::addBreakFromDb(QDate(init_query.value(1).toInt(),      //year
                                               init_query.value(2).toInt(),      //month
                                               init_query.value(3).toInt()),     //day
-                                        init_query.value(4).toInt(),            //daytask_id
+                                        init_query.value(4).toInt(),            //Task_id
                                         Break{init_query.value(5).toTime(),     //start_time
                                               init_query.value(6).toTime(),     //end_time
                                               init_query.value(0).toInt()});    //id
     }
 }
 
-void DbController::insertTask(TaskTemplate task)
+void DbController::insertTaskTemplate(TaskTemplate task)
 {
     //Save task to the database
     QSqlQuery insert_query;
-    insert_query.prepare("INSERT INTO Tasks (Id, Text, GroupId, Icon) VALUES (:id, :task, :group_id, :icon)");
+    insert_query.prepare("INSERT INTO TaskTemplates (Id, Text, GroupId, Icon) VALUES (:id, :task, :group_id, :icon)");
     insert_query.bindValue(":id", task.id);
     insert_query.bindValue(":task", task.name);
     insert_query.bindValue(":group_id", task.group_id);
@@ -237,11 +237,11 @@ void DbController::insertTask(TaskTemplate task)
     }
 }
 
-void DbController::updateTask(TaskTemplate task)
+void DbController::updateTaskTemplate(TaskTemplate task)
 {
     //Update task in the database
     QSqlQuery update_query;
-    update_query.prepare("UPDATE Tasks SET Text = :title, GroupId = :group, Icon = :icon WHERE Id = :id");
+    update_query.prepare("UPDATE TaskTemplates SET Text = :title, GroupId = :group, Icon = :icon WHERE Id = :id");
     update_query.bindValue(":id", task.id);
     update_query.bindValue(":title", task.name);
     update_query.bindValue(":group", task.group_id);
@@ -254,10 +254,10 @@ void DbController::updateTask(TaskTemplate task)
     }
 }
 
-void DbController::deleteTask(TaskTemplate task)
+void DbController::deleteTaskTemplate(TaskTemplate task)
 {
     QSqlQuery delete_query;
-    delete_query.prepare("DELETE FROM Tasks WHERE Id = :id");
+    delete_query.prepare("DELETE FROM TaskTemplates WHERE Id = :id");
     delete_query.bindValue(":id", task.id);
     if (!delete_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while deleting task from the database. "
@@ -267,20 +267,20 @@ void DbController::deleteTask(TaskTemplate task)
     }
 }
 
-void DbController::insertDayTask(QDate date, Task daytask)
+void DbController::insertTask(QDate date, Task Task)
 {
     QSqlQuery insert_query;
-    insert_query.prepare("INSERT INTO DayTasks (Id, Year, Month, Day, TaskId, Note, StartTime, Duration, IsDone) VALUES ("
+    insert_query.prepare("INSERT INTO Tasks (Id, Year, Month, Day, TaskTemplateId, Note, StartTime, Duration, IsDone) VALUES ("
                          ":id, :y, :m, :d, :task_id, :note, :st, :du, :isd)");
-    insert_query.bindValue(":id", QString::number(daytask.id));
+    insert_query.bindValue(":id", QString::number(Task.id));
     insert_query.bindValue(":y", date.year());
     insert_query.bindValue(":m", date.month());
     insert_query.bindValue(":d", date.day());
-    insert_query.bindValue(":task_id", daytask.task_id);
-    insert_query.bindValue(":note", daytask.note);
-    insert_query.bindValue(":st", daytask.start_time);
-    insert_query.bindValue(":du", daytask.duration);
-    insert_query.bindValue(":isd", daytask.is_done);
+    insert_query.bindValue(":task_id", Task.tasktemplate_id);
+    insert_query.bindValue(":note", Task.note);
+    insert_query.bindValue(":st", Task.start_time);
+    insert_query.bindValue(":du", Task.duration);
+    insert_query.bindValue(":isd", Task.is_done);
     if (!insert_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while adding created day task to the database. "
                               "Program won't close, but created day task won't be saved");
@@ -289,10 +289,10 @@ void DbController::insertDayTask(QDate date, Task daytask)
     }
 }
 
-void DbController::updateDayTask(QDate date, Task daytask)
+void DbController::updateTask(QDate date, Task Task)
 {
     QSqlQuery update_query;
-    update_query.prepare("UPDATE DayTasks SET Note = :note, StartTime = :start_time, Duration = :duration, IsDone = :is_done WHERE "
+    update_query.prepare("UPDATE Tasks SET Note = :note, StartTime = :start_time, Duration = :duration, IsDone = :is_done WHERE "
                             "Year = :y AND "
                             "Month = :m AND "
                             "Day = :d AND "
@@ -300,11 +300,11 @@ void DbController::updateDayTask(QDate date, Task daytask)
     update_query.bindValue(":y", date.year());
     update_query.bindValue(":m", date.month());
     update_query.bindValue(":d", date.day());
-    update_query.bindValue(":id", daytask.id);
-    update_query.bindValue(":note", daytask.note);
-    update_query.bindValue(":start_time", daytask.start_time);
-    update_query.bindValue(":duration", daytask.duration);
-    update_query.bindValue(":is_done", daytask.is_done);
+    update_query.bindValue(":id", Task.id);
+    update_query.bindValue(":note", Task.note);
+    update_query.bindValue(":start_time", Task.start_time);
+    update_query.bindValue(":duration", Task.duration);
+    update_query.bindValue(":is_done", Task.is_done);
     if (!update_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while updating day task in the database. "
                               "Program won't close, but day task changes won't be saved");
@@ -313,14 +313,14 @@ void DbController::updateDayTask(QDate date, Task daytask)
     }
 }
 
-void DbController::deleteDayTask(QDate date, Task daytask)
+void DbController::deleteTask(QDate date, Task Task)
 {
     QSqlQuery delete_query;
-    delete_query.prepare("DELETE FROM DayTasks WHERE Year = :y AND Month = :m AND Day = :d AND Id = :id");
+    delete_query.prepare("DELETE FROM Tasks WHERE Year = :y AND Month = :m AND Day = :d AND Id = :id");
     delete_query.bindValue(":y", date.year());
     delete_query.bindValue(":m", date.month());
     delete_query.bindValue(":d", date.day());
-    delete_query.bindValue(":id", daytask.id);
+    delete_query.bindValue(":id", Task.id);
     if (!delete_query.exec()) {
         QMessageBox error_msg(QMessageBox::Warning, "DB Error", "Error while deleting day task from the database. "
                               "Program won't close, but day task won't be deleted");
@@ -371,14 +371,14 @@ void DbController::insertBreak(QDate date, int task_id, Break brk)
 //    }
 //}
 
-void DbController::deleteBreak(QDate date, int daytask_id, Break brk)
+void DbController::deleteBreak(QDate date, int Task_id, Break brk)
 {
     QSqlQuery delete_query;
-    delete_query.prepare("DELETE FROM DayBreaks WHERE Year = :y AND Month = :m AND Day = :d AND DayTaskId = :daytask_id AND Id = :id");
+    delete_query.prepare("DELETE FROM DayBreaks WHERE Year = :y AND Month = :m AND Day = :d AND TaskId = :Task_id AND Id = :id");
     delete_query.bindValue(":y", date.year());
     delete_query.bindValue(":m", date.month());
     delete_query.bindValue(":d", date.day());
-    delete_query.bindValue(":daytask_id", daytask_id);
+    delete_query.bindValue(":Task_id", Task_id);
     delete_query.bindValue(":id", brk.id);
 
     if (!delete_query.exec()) {

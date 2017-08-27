@@ -1,5 +1,5 @@
-#ifndef DAYTASK_H
-#define DAYTASK_H
+#ifndef Task_H
+#define Task_H
 
 #include <QTime>
 #include <QString>
@@ -11,16 +11,16 @@ class Task
 {
 public:
     Task() = default;
-    Task(int task_id, QTime start_time, QTime duration, int is_done = 0);
+    Task(int tasktemplate_id, QTime start_time, QTime duration, int is_done = 0);
     //From DB
-    Task(int id, int task_id, QString note, QTime start_time, QTime duration, int is_done);
+    Task(int id, int tasktemplate_id, QString note, QTime start_time, QTime duration, int is_done);
 
     int id;
-    int task_id;
+    int tasktemplate_id;
     QString note;
     QTime start_time;
     QTime duration;
     int is_done;
     std::vector<Break> break_vec;
 };
-#endif // DAYTASK_H
+#endif // Task_H

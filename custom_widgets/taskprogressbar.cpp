@@ -12,7 +12,7 @@ TaskProgressBar::TaskProgressBar(QDate current_date, Task task, QWidget* parent)
     task{task},
     QProgressBar(parent)
 {
-    fragment_count = task.start_time.secsTo(DayTaskController::getEndTime(current_date, task.id));
+    fragment_count = task.start_time.secsTo(TaskController::getEndTime(current_date, task.id));
     if (fragment_count == 0)
         fragment_count = 1;
     else

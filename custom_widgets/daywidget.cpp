@@ -75,16 +75,16 @@ DayWidget::DayWidget(QDate date, QWidget* parent) :
         btn_layout->addLayout(top_layout);
 
     //Layout for "time spent on day tasks" label or placeholder
-        if (DayTaskController::dayTaskCount(chosen_date) > 0) {
+        if (TaskController::TaskCount(chosen_date) > 0) {
             QHBoxLayout* mid_layout = new QHBoxLayout;
             mid_layout->setSpacing(0);
             mid_layout->setContentsMargins(0, 0, 0, 0);
 
             QCustomLabel* task_time_sum_lbl = new QCustomLabel(this);
             QTime duration_sum(0, 0, 0, 0);
-            for (int i = 0; i < DayTaskController::dayTaskCount(chosen_date); i++) {
-                int h_secs = DayTaskController::getDayTask(chosen_date, i).duration.hour() * 60 * 60;
-                int m_secs = DayTaskController::getDayTask(chosen_date, i).duration.minute() * 60;
+            for (int i = 0; i < TaskController::TaskCount(chosen_date); i++) {
+                int h_secs = TaskController::getTask(chosen_date, i).duration.hour() * 60 * 60;
+                int m_secs = TaskController::getTask(chosen_date, i).duration.minute() * 60;
                 duration_sum = duration_sum.addSecs(h_secs + m_secs);
             }
             task_time_sum_lbl->setText(duration_sum.toString("HH:mm"));

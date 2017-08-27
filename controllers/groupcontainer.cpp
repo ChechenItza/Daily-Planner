@@ -1,7 +1,7 @@
 #include "groupcontainer.h"
 #include "controllers/db.h"
 #include "controllers/datecontrollers.h"
-#include "controllers/taskcontainer.h"
+#include "controllers/tasktemplatecontainer.h"
 #include <QMessageBox>
 #include <typeinfo>
 
@@ -69,9 +69,9 @@ void GroupContainer::removeGroup(int id)
 {
     int group_index = findGroup(id, QString(typeid(GroupContainer).name()) + "::" + QString(__func__));
 
-    for (int i = 0; i < task_container.taskCount(); i++) {
-        if (task_container.getTask(i).group_id == id)
-            task_container.removeTask(task_container.getTask(i).id);
+    for (int i = 0; i < tasktemplate_container.taskCount(); i++) {
+        if (tasktemplate_container.getTaskTemplate(i).group_id == id)
+            tasktemplate_container.removeTaskTemplate(tasktemplate_container.getTaskTemplate(i).id);
     }
 
     db.deleteGroup(_group_vec[group_index]);

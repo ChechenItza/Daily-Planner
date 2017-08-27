@@ -23,7 +23,7 @@ public:
 private:
     void openTaskDlg();
     void drawDayButtons();
-    void drawDayTasks();
+    void drawTasks();
     void redrawDate();
     void initConnects();
 
@@ -32,8 +32,8 @@ private:
 
     QDate current_date;
     std::vector<QPushButton*> daybutton_vec;
-    std::vector<QWidget*> daytask_widget_vec;
-    int chosen_daytask_id;
+    std::vector<QWidget*> task_widget_vec;
+    int chosen_Task_id;
     bool is_month_window;
 };
 

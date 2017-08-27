@@ -11,7 +11,7 @@ struct TaskTemplate
     int group_id;
     QString icon_path;
     int id;
-    std::vector<std::pair<QDate, int>> linked_daytasks_vec;
+    std::vector<std::pair<QDate, int>> linked_Tasks_vec;
 };
 
 #endif // TASK_H

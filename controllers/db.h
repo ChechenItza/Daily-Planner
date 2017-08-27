@@ -17,16 +17,16 @@ public:
     void create();
     void init();
 
-    void insertTask(TaskTemplate task);
-    void updateTask(TaskTemplate task);
-    void deleteTask(TaskTemplate task);
+    void insertTaskTemplate(TaskTemplate task);
+    void updateTaskTemplate(TaskTemplate task);
+    void deleteTaskTemplate(TaskTemplate task);
 
-    void insertDayTask(QDate date, Task daytask);
-    void updateDayTask(QDate date, Task daytask);
-    void deleteDayTask(QDate date, Task daytask);
+    void insertTask(QDate date, Task Task);
+    void updateTask(QDate date, Task Task);
+    void deleteTask(QDate date, Task Task);
 
     void insertBreak(QDate date, int task_id, Break brk);
-    void deleteBreak(QDate date, int daytask_id, Break brk);
+    void deleteBreak(QDate date, int Task_id, Break brk);
 
     void updateDay(QDate date, Day day);
 

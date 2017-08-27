@@ -7,7 +7,7 @@
 #include "custom_widgets/materialdialog.h"
 #include "controllers/datecontrollers.h"
 #include "controllers/groupcontainer.h"
-#include "controllers/taskcontainer.h"
+#include "controllers/tasktemplatecontainer.h"
 #include <QMessageBox>
 #include <QScrollArea>
 #include <QFormLayout>
@@ -71,9 +71,9 @@ void TaskDialog::drawTasks()
         tab_widget->setLayout(tab_layout);
 
         //add task widgets to it
-        for (int j = 0; j < task_container.taskCount(); j++) {
-            if (task_container.getTask(j).group_id == group_container.getGroup(i).id)
-                tab_layout->addWidget(genTask(task_container.getTask(j)));
+        for (int j = 0; j < tasktemplate_container.taskCount(); j++) {
+            if (tasktemplate_container.getTaskTemplate(j).group_id == group_container.getGroup(i).id)
+                tab_layout->addWidget(genTask(tasktemplate_container.getTaskTemplate(j)));
         }
         QSpacerItem* task_spacer = new QSpacerItem(40, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
         tab_layout->addSpacerItem(task_spacer);
@@ -108,7 +108,7 @@ QWidget* TaskDialog::genTask(TaskTemplate task)
     QSpacerItem* spacer = new QSpacerItem(10, 40, QSizePolicy::Expanding, QSizePolicy::Minimum);
     task_layout->addSpacerItem(spacer);
 
-    //"create daytask" button
+    //"create Task" button
     MyIconButton* add_task_btn = new MyIconButton(QIcon(":/Images/Resources/ic_add_black_24px.svg"));
     //prompt a dialog on click
     connect(add_task_btn, &QPushButton::clicked, [this, task] {
@@ -137,7 +137,7 @@ QWidget* TaskDialog::genTask(TaskTemplate task)
         material_dlg->setConfirmBtnText("ADD NEW");
 
         connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, task, start_time_edit, duration_edit] {
-            addDayTask(task.id, start_time_edit->time(), duration_edit->time());
+            addTask(task.id, start_time_edit->time(), duration_edit->time());
             material_dlg->close();
         });
         material_dlg->show();
@@ -210,7 +210,7 @@ QWidget* TaskDialog::genTask(TaskTemplate task)
     MyIconButton* delete_task_btn = new MyIconButton(QIcon(":/Images/Resources/ic_delete_black_24px.svg"));
     connect(delete_task_btn, &QPushButton::clicked, [this, task] {
         if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task? Every day task associated with it will be permanently deleted.", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
-           task_container.removeTask(task.id);
+           tasktemplate_container.removeTaskTemplate(task.id);
            drawTasks();
            emit changed();
         }
@@ -220,10 +220,10 @@ QWidget* TaskDialog::genTask(TaskTemplate task)
     return task_widget;
 }
 
-void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
+void TaskDialog::addTask(int task_id, QTime start_time, QTime duration)
 {
 ///TODO: SANITIZE USER INPUT
-    DayTaskController::addDayTask(current_date, Task(task_id, start_time, duration));
+    TaskController::addTask(current_date, Task(task_id, start_time, duration));
 
     emit changed();
 }
@@ -231,16 +231,16 @@ void TaskDialog::addDayTask(int task_id, QTime start_time, QTime duration)
 void TaskDialog::addTask(QString icon_path, QString name, int group_id)
 {
 ///TODO: SANITIZE USER INPUT
-    task_container.addTask(TaskTemplate{ name, group_id, icon_path });
+    tasktemplate_container.addTaskTemplate(TaskTemplate{ name, group_id, icon_path });
 
     drawTasks();
 }
 
 void TaskDialog::editTask(int task_id, QString icon_path, QString name, int group_id)
 {
-    task_container.setIconPath(task_id, icon_path);
-    task_container.setName(task_id, name);
-    task_container.setGroup(task_id, group_id);
+    tasktemplate_container.setIconPath(task_id, icon_path);
+    tasktemplate_container.setName(task_id, name);
+    tasktemplate_container.setGroup(task_id, group_id);
 
     drawTasks();
     emit changed();

@@ -17,7 +17,7 @@ public:
     int weekday;
     constants::status_t status;
     QString note;
-    std::vector<Task> daytask_vec;
+    std::vector<Task> task_vec;
 };
 
 class Month

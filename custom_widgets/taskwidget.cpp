@@ -1,10 +1,10 @@
-#include "daytaskwidget.h"
+#include "taskwidget.h"
 #include "custom_widgets/qcustomlabel.h"
 #include "custom_widgets/taskprogressbar.h"
 #include "custom_widgets/mycustomshadoweffect.h"
 #include "custom_widgets/myiconbutton.h"
 #include "custom_widgets/materialdialog.h"
-#include "controllers/taskcontainer.h"
+#include "controllers/tasktemplatecontainer.h"
 #include "controllers/groupcontainer.h"
 #include <QMenu>
 #include <QMessageBox>
@@ -19,11 +19,11 @@
 #include <QTimer>
 #include <QPalette>
 
-DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
+TaskWidget::TaskWidget(QDate date, Task task, QWidget *parent) :
     QWidget(parent),
     current_date{date}
 {
-    //Assemble daytask widget
+    //Assemble task widget
     //Status and icon
         //status
         QFrame* status_color = new QFrame(this);
@@ -32,7 +32,7 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
         status_color->setMinimumWidth(4);
         status_color->setAutoFillBackground(true);
         QString style = "background: %1; border: 0px;";
-        switch (daytask.is_done) {
+        switch (task.is_done) {
         case 0:
             style = style.arg(constants::red);
             break;
@@ -47,24 +47,24 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
 
         //... and icon
         QCustomLabel* icon_lbl = new QCustomLabel(this);
-        QPixmap icon(task_container.findTask(daytask.task_id).icon_path);
+        QPixmap icon(tasktemplate_container.findTaskTemplate(task.tasktemplate_id).icon_path);
         icon_lbl->setPixmap(icon.scaled(QSize(60,60)));
     //Labels
         //task name
-        QCustomLabel* text_lbl = new QCustomLabel(task_container.findTask(daytask.task_id).name, this);
+        QCustomLabel* text_lbl = new QCustomLabel(tasktemplate_container.findTaskTemplate(task.tasktemplate_id).name, this);
         text_lbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         text_lbl->setFont(QFont("Roboto", 11, 75, false));
         //group name
-        QCustomLabel* group_lbl = new QCustomLabel(task_container.getGroup(daytask.task_id).name.toLower(), this);
+        QCustomLabel* group_lbl = new QCustomLabel(tasktemplate_container.getGroup(task.tasktemplate_id).name.toLower(), this);
         group_lbl->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         group_lbl->setFont(QFont("Roboto", 10, 75, false));
         group_lbl->setStyleSheet("color: #ffffff;"
                                  "border: 1px solid;"
-                                 "border-color:" + task_container.getGroup(daytask.task_id).color + ";"
-                                 "background:" + task_container.getGroup(daytask.task_id).color + ";"
+                                 "border-color:" + tasktemplate_container.getGroup(task.tasktemplate_id).color + ";"
+                                 "background:" + tasktemplate_container.getGroup(task.tasktemplate_id).color + ";"
                                  "border-radius: 4px;");
         //start time
-        QCustomLabel* start_time_lbl = new QCustomLabel(daytask.start_time.toString("HH:mm"), this);
+        QCustomLabel* start_time_lbl = new QCustomLabel(task.start_time.toString("HH:mm"), this);
         start_time_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
         start_time_lbl->setFont(QFont("Roboto", 9, 50, false));
         start_time_lbl->setObjectName("start_time_lbl");
@@ -73,7 +73,7 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
         time_separator_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
         time_separator_lbl->setFont(QFont("Roboto", 9, 50, false));
         //end time
-        QCustomLabel* end_time_lbl = new QCustomLabel(DayTaskController::getEndTime(current_date, daytask.id).toString("HH:mm"), this);
+        QCustomLabel* end_time_lbl = new QCustomLabel(TaskController::getEndTime(current_date, task.id).toString("HH:mm"), this);
         end_time_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
         end_time_lbl->setFont(QFont("Roboto", 9, 50, false));
         end_time_lbl->setObjectName("end_time_lbl");
@@ -85,21 +85,21 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
         QCustomLabel* duration_lbl = new QCustomLabel(this);
         duration_lbl->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
         duration_lbl->setFont(QFont("Roboto", 9, 50, true));
-        duration_lbl->setText(QString::number(daytask.duration.hour())
-                              + " hour(s) " + QString::number(daytask.duration.minute())
+        duration_lbl->setText(QString::number(task.duration.hour())
+                              + " hour(s) " + QString::number(task.duration.minute())
                               + " minute(s)");
     //Buttons
         //more
         MyIconButton* more_btn = new MyIconButton(QIcon(":/Images/Resources/ic_more_vert_black_24px.svg"), this);
         //context menu and actions
-        //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawDayTasks() when %remove_task is clicked
+        //!!!!!!!!! %context_menu has to have no parent, otherwise can't call %drawtasks() when %remove_task is clicked
         QMenu* context_menu = new QMenu();
         //delete task
         QAction* remove_task = new QAction("Delete", context_menu);
         remove_task->setFont(QFont("Roboto", 9, 50, false));
-        connect(remove_task, &QAction::triggered, [this, daytask] {
+        connect(remove_task, &QAction::triggered, [this, task] {
             if (QMessageBox::warning(this, "Delete confirmation", "Do you really want to delete this task?", QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes) {
-                    DayTaskController::removeDayTask(current_date, daytask.id);
+                    TaskController::removeTask(current_date, task.id);
                     emit redrawNeeded();
             }
         });
@@ -107,13 +107,13 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
     //    view_breaks->setFont(QFont("Roboto", 9, 50, false));
     //    connect(view_breaks, &QAction::triggered, [this, i] {
     //        break_window = new BreakWindow(i, date()[g::y][g::m][g::d].getTask(i).startTime(), date()[g::y][g::m][g::d].getTask(i).endTime());
-    //        connect(break_window, &BreakWindow::breakAdded, [this] { drawDayTasks(); });
+    //        connect(break_window, &BreakWindow::breakAdded, [this] { drawtasks(); });
     //        break_window->show();
     //    });
         //edit task time
         QAction* edit_task_time = new QAction("Edit time", context_menu);
         edit_task_time->setFont(QFont("Roboto", 9, 50, false));
-        connect(edit_task_time, &QAction::triggered, [this, daytask] {
+        connect(edit_task_time, &QAction::triggered, [this, task] {
             //material dialog template
             MaterialDialog* material_dlg = new MaterialDialog(this);
 
@@ -123,14 +123,14 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
             QLabel* start_time_lbl = new QLabel("Start time", material_dlg);
             QTimeEdit* start_time_edit = new QTimeEdit(QDateTime::currentDateTime().time(), material_dlg);
             start_time_edit->setDisplayFormat("hh:mm");
-            start_time_edit->setTime(daytask.start_time);
+            start_time_edit->setTime(task.start_time);
 
             main_layout->addRow(start_time_lbl, start_time_edit);
 
             QLabel* duration_lbl = new QLabel("Duration", material_dlg);
             QTimeEdit* duration_edit = new QTimeEdit(material_dlg);
             duration_edit->setDisplayFormat("hh:mm");
-            duration_edit->setTime(daytask.duration);
+            duration_edit->setTime(task.duration);
 
             main_layout->addRow(duration_lbl, duration_edit);
 
@@ -140,39 +140,41 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
             material_dlg->setCancelBtnText("CANCEL");
             material_dlg->setConfirmBtnText("CONFIRM");
 
-            connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, daytask, start_time_edit, duration_edit] {
-                editDayTaskTime(daytask.id, start_time_edit->time(), duration_edit->time());
+            connect(material_dlg, &MaterialDialog::confirmBtnClicked, [this, material_dlg, task, start_time_edit, duration_edit] {
+                editTaskTime(task.id, start_time_edit->time(), duration_edit->time());
                 material_dlg->close();
+                if (redrawIsNeeded)
+                    emit redrawNeeded();
             });
             material_dlg->show();
         });
         //mark as done
         QAction* mark_done = new QAction(context_menu);
         mark_done->setFont(QFont("Roboto", 9, 50, false));
-        switch (daytask.is_done) {
+        switch (task.is_done) {
         case 0:
             mark_done->setText("Mark done");
-            connect(mark_done, &QAction::triggered, [this, daytask] {
-                DayTaskController::setStatus(current_date, daytask.id, 1);
+            connect(mark_done, &QAction::triggered, [this, task] {
+                TaskController::setStatus(current_date, task.id, 1);
                 emit redrawNeeded();
             });
             break;
         case 1:
             mark_done->setText("Mark undone");
-            connect(mark_done, &QAction::triggered, [this, daytask] {
-                DayTaskController::setStatus(current_date, daytask.id, 0);
+            connect(mark_done, &QAction::triggered, [this, task] {
+                TaskController::setStatus(current_date, task.id, 0);
                 emit redrawNeeded();
             });
             break;
     //    case 2:
     //        mark_done->setText("Mark done");
-    //        connect(mark_done, &QAction::triggered, [this, daytask] {
-    //            int secs = daytask.start_time.secsTo(QTime::currentTime());
+    //        connect(mark_done, &QAction::triggered, [this, task] {
+    //            int secs = task.start_time.secsTo(QTime::currentTime());
     //            QTime duration(0,0,0,0);
     //            duration.addSecs(secs);
-    //            DayTaskController::setDuration(current_date, daytask.id, duration);
-    //            DayTaskController::setStatus(current_date, daytask.id, 1);
-    //            drawDayTasks();
+    //            TaskController::setDuration(current_date, task.id, duration);
+    //            TaskController::setStatus(current_date, task.id, 1);
+    //            drawtasks();
     //        });
     //        break;
         }
@@ -241,9 +243,9 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
         bottom_layout->setSpacing(12);
         //Add either timeline or break info to the layout
         if (current_date == QDate::currentDate() &&
-                daytask.start_time <= QTime::currentTime() &&
-                DayTaskController::getEndTime(current_date, daytask.id) > QTime::currentTime()) {
-            TaskProgressBar* bar = new TaskProgressBar(current_date, daytask, this);
+                task.start_time <= QTime::currentTime() &&
+                TaskController::getEndTime(current_date, task.id) > QTime::currentTime()) {
+            TaskProgressBar* bar = new TaskProgressBar(current_date, task, this);
             QTimer* timer = new QTimer(this);
             connect(timer, &QTimer::timeout, [this, bar]() {
                 bar->progress();
@@ -256,16 +258,16 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
             bottom_layout->addWidget(bar);
         } else {
             QCustomLabel* break_lbl;
-            if (BreakController::breakCount(current_date, daytask.id) > 0) {
+            if (BreakController::breakCount(current_date, task.id) > 0) {
                 int duration_sum = 0;
-                for (size_t j = 0; j < BreakController::breakCount(current_date, daytask.id); j++) {
-                    QTime start_time = BreakController::getBreak(current_date, daytask.id, j).start_time;
-                    QTime end_time = BreakController::getBreak(current_date, daytask.id, j).end_time;
+                for (size_t j = 0; j < BreakController::breakCount(current_date, task.id); j++) {
+                    QTime start_time = BreakController::getBreak(current_date, task.id, j).start_time;
+                    QTime end_time = BreakController::getBreak(current_date, task.id, j).end_time;
                     duration_sum += start_time.secsTo(end_time);
                 }
                 int minute = (duration_sum / 60) % 60;
                 duration_sum = (duration_sum / 60) / 60;
-                break_lbl = new QCustomLabel(QString::number(BreakController::breakCount(current_date, daytask.id)) + " break(s): " +
+                break_lbl = new QCustomLabel(QString::number(BreakController::breakCount(current_date, task.id)) + " break(s): " +
                                        QString::number(duration_sum) + " hour(s) and " +
                                        QString::number(minute) + " minute(s) total", this);
             } else {
@@ -318,10 +320,10 @@ DayTaskWidget::DayTaskWidget(QDate date, Task daytask, QWidget *parent) :
         this->setGraphicsEffect(bodyShadow);
 }
 
-void DayTaskWidget::editDayTaskTime(int daytask_id, QTime start_time, QTime duration)
+void TaskWidget::editTaskTime(int task_id, QTime start_time, QTime duration)
 {
-    DayTaskController::setStartTime(current_date, daytask_id, start_time);
-    DayTaskController::setDuration(current_date, daytask_id, duration);
+    TaskController::setStartTime(current_date, task_id, start_time);
+    TaskController::setDuration(current_date, task_id, duration);
 
-    emit redrawNeeded();
+    redrawIsNeeded = true;
 }
