@@ -1,5 +1,7 @@
 # Daily-Planner
-Daily planner and organizer app made with Qt Widgets/C++. Forever in alpha.
+Daily planner/organizer app made with Qt Widgets/C++. Forever in alpha.
+
+![mainwindow](http://imgur.com/CVTWQNH.png)
 
 <b>Features</b>:
 * add and manage tasks, breaks, notes
@@ -17,8 +19,6 @@ See this [wiki page](https://github.com/7Y2RPXK3ETDCNRDD/Koondelick/wiki/Archite
 If you want to contribute, please consider implementing features from the list of planned features on this [wiki page](https://github.com/7Y2RPXK3ETDCNRDD/Koondelick/wiki/Planned-features-and-functionalities)
 
 ## Screenshots
-![mainwindow](http://imgur.com/CVTWQNH.png)
-
 ![daytasks](http://imgur.com/z13xh05.png)
 
 ![note](http://imgur.com/bQyeghu.png)
